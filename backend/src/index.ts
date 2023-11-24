@@ -15,7 +15,7 @@ app.get('/', (req: Request, res: Response) => {
 app.listen(port, () => {
   // Connect to Mongo.
   // TODO: Maybe move this connection somewhere else and add options to the connect method to specify database: test or prod.
-  mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@cluster0.p7l79i6.mongodb.net/?retryWrites=true&w=majority`)
+  mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@cluster0.p7l79i6.mongodb.net/?retryWrites=true&w=majority`, { dbName: 'test' })
     .then(() => {
       console.log(`Server is Fire at http://localhost:${port}`);
     })
