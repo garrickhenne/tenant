@@ -16,11 +16,6 @@ const landlordSchema = new Schema<ILandlord>({
 });
 
 // 3. Create a Model.
-const Landlord = model<ILandlord>('Landlord', landlordSchema);
-
-export default new Landlord({
-  firstName: 'Garrick',
-  lastName: 'Henne'
-});
+module.exports = model<ILandlord>('Landlord', landlordSchema);
 
 
