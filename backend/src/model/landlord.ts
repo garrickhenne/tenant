@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
+// Helpful doc for use in typescript: https://mongoosejs.com/docs/typescript.html
+
 // 1. Create an interface representing a document in MongoDB.
 interface ILandlord {
   firstName: string;
