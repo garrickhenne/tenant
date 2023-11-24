@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, ObjectId } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
 interface IProperty {
   postalCode: string;
