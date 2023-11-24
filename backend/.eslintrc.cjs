@@ -2,7 +2,7 @@
 module.exports = {
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', '@stylistic'],
   rules: {
     "indent": [
       "error",
@@ -35,7 +35,8 @@ module.exports = {
     "brace-style": "error",
     "space-before-function-paren": ["warn", { "anonymous": "never", "named": "never", "asyncArrow": "never" }],
     "func-names": ["error", "never"],
-    "quotes": "off"
+    "quotes": "off",
+    "@stylistic/object-curly-spacing": ["error", "always"]
   },
   root: true,
 };
