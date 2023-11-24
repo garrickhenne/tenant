@@ -1,0 +1,19 @@
+# Dependency directories
+/backend/node_modules
+
+# Typescript build directory
+/backend/dist
+
+# Environment variables
+.env
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Node.js generated files
+.DS_Store
+*.log
+
+# Visual Studio Code settings (optional)
+.vscode/settings.json
