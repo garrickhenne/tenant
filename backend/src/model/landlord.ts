@@ -6,6 +6,7 @@ import mongoose, { Schema } from "mongoose";
 interface ILandlord {
   firstName: string;
   lastName: string;
+  organization?: string;
   createdAt: Date
 }
 
@@ -13,6 +14,7 @@ interface ILandlord {
 const landlordSchema = new Schema<ILandlord>({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
+  organization: { type: String },
   createdAt: { type: Date, default: new Date(), immutable: true }
 });
 
