@@ -3,11 +3,11 @@ import mongoose, { Schema } from "mongoose";
 // Helpful doc for use in typescript: https://mongoosejs.com/docs/typescript.html
 
 // 1. Create an interface representing a document in MongoDB.
-interface ILandlord {
+export interface ILandlord {
   firstName: string;
   lastName: string;
   organization?: string;
-  createdAt: Date
+  createdAt?: Date
 }
 
 // 2. Create a Schema corresponding to the document interface.
@@ -19,6 +19,8 @@ const landlordSchema = new Schema<ILandlord>({
 });
 
 // 3. Create a Model.
-export default mongoose.model<ILandlord>('Landlord', landlordSchema);
+const Landlord = mongoose.model<ILandlord>('Landlord', landlordSchema);
+
+export default Landlord;
 
 
