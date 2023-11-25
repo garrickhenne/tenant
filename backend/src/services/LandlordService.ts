@@ -3,21 +3,15 @@
 import { HydratedDocument } from 'mongoose';
 import LandlordModel, { ILandlord } from '../model/Landlord';
 
-const createLandlord = (firstName: string, lastName: string, organization?: string) => {
+export const createLandlord = (firstName: string, lastName: string, organization?: string): Promise<ILandlord> => {
   const landlord: HydratedDocument<ILandlord> = new LandlordModel({ firstName, lastName, organization });
   return landlord.save();
 };
 
-const findLandlordById = (landlordId: string): Promise<ILandlord | null> => {
+export const findLandlordById = (landlordId: string): Promise<ILandlord | null> => {
   return LandlordModel.findById(landlordId).exec();
 };
 
-const deleteLandlord = (landlordId: string): Promise<ILandlord | null> => {
+export const deleteLandlord = (landlordId: string): Promise<ILandlord | null> => {
   return LandlordModel.findByIdAndDelete(landlordId).exec();
-};
-
-module.exports = {
-  createLandlord,
-  findLandlordById,
-  deleteLandlord
 };
