@@ -2,9 +2,9 @@ import mongoose, { Schema, Types } from 'mongoose';
 
 // 1. Create an interface representing a document in MongoDB.
 export interface IIncident {
-  user: Types.ObjectId,
-  landlord: Types.ObjectId,
-  property: Types.ObjectId,
+  userId: Types.ObjectId,
+  landlordId: Types.ObjectId,
+  propertyId: Types.ObjectId,
   status: string,
   description: string,
   type: string,
@@ -15,9 +15,9 @@ export interface IIncident {
 
 // 2. Create a Schema corresponding to the document interface.
 const incidentSchema = new Schema<IIncident>({
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  landlord: { type: Schema.Types.ObjectId, ref: 'Landlord', required: true },
-  property: { type: Schema.Types.ObjectId, ref: 'Property', required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  landlordId: { type: Schema.Types.ObjectId, ref: 'Landlord', required: true },
+  propertyId: { type: Schema.Types.ObjectId, ref: 'Property', required: true },
   status: { type: String, required: true },
   description: { type: String, required: true },
   type: { type: String, required: true },
