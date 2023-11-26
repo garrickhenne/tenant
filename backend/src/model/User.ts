@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IUser {
+export interface IUser {
   username: string;
   email: string;
   password: string;
@@ -14,4 +14,6 @@ const userSchema = new Schema<IUser>({
   dateCreated: { type: Date, default: new Date(), immutable: true }
 });
 
-export default mongoose.model<IUser>('User', userSchema);
+const User =  mongoose.model<IUser>('User', userSchema);
+
+export default User;
