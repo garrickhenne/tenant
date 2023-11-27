@@ -1,10 +1,16 @@
-const NavButton = ({ name }) => {
+import { Link } from 'react-router-dom';
+
+const NavButton = ({ name, path }) => {
 
 
   return(
-    <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-sky-600">
-      { name }
-    </button>
+    <Link
+      to={path}
+    >
+      <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white">
+        { name }
+      </button>
+    </Link>
   );
 };
 
