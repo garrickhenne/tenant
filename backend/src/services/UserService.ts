@@ -22,17 +22,24 @@ export const createUser = (username: string, email: string, password: string): P
     });
 };
 
-export const userCredentialsCorrect = (email: string, password: string) => {
+export const authUserCredentials = (email: string, password: string): Promise<IUser | null> => {
   // First, get the hashed password of the user from db with email.
   // Translate email to lower case for edge cases.
-  findByUserEmail(email.toLowerCase())
+  return findByUserEmail(email.toLowerCase())
     .then(foundUser => {
       if (!foundUser) {
         console.log(`Tried to find email: ${email} but was not found in db.`);
-        return false;
+        return null;
       }
 
       // Compare password given to the hashed password found in db for user.
-      return compare(password, foundUser.password);
+      return compare(password, foundUser.password)
+        .then(wasAuthed => {
+          if (wasAuthed) {
+            return foundUser;
+          }
+          console.log(`Password for ${email} was incorrect.`);
+          return null;
+        });
     });
 };
