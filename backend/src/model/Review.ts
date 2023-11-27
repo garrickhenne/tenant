@@ -3,7 +3,7 @@ import mongoose, { Schema, Types } from "mongoose";
 export interface IReview {
   title: string;
   description: string;
-  sentiment: number;
+  sentiment?: number;
   healthSafety: number;
   respect: number;
   repair: number;
