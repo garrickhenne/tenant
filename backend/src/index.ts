@@ -1,11 +1,17 @@
 import express, { Express, Request, Response, Application } from 'express';
 import { connectToMongoDB } from './db/connection';
 import dotenv from 'dotenv';
+import cookieSession from 'cookie-session';
 
 //For env File
 dotenv.config();
+const COOKIE_SESSION_KEY: string = process.env.COOKIE_SESSION_KEY || 'key1';
 
 const app: Application = express();
+app.use(cookieSession({
+  name: 'session',
+  keys: [COOKIE_SESSION_KEY]
+}));
 const port = process.env.PORT || 8000;
 
 app.get('/', (req: Request, res: Response) => {
