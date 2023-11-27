@@ -16,5 +16,26 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react/prop-types': 'off',
+    "indent": [
+      "error",
+      2
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-unused-vars": "warn",
+    "space-before-blocks": "error",
+    "func-call-spacing": [
+      "error",
+      "never"
+    ],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "func-style": ["error", "expression"],
+    "space-in-parens": "error",
+    "brace-style": "error",
+    "space-before-function-paren": ["warn", { "anonymous": "never", "named": "never", "asyncArrow": "never" }],
+    "quotes": "off",
   },
-}
+};
