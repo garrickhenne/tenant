@@ -7,7 +7,7 @@ export interface IReview {
   healthSafety: number;
   respect: number;
   repair: number;
-  overallScore: number;
+  overallScore?: number;
   userId: Types.ObjectId;
   landlordId: Types.ObjectId;
 }
