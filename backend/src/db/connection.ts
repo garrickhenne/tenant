@@ -3,7 +3,7 @@ import mongoose, { Connection } from 'mongoose';
 let mongooseConnection: typeof mongoose | undefined;
 
 // Function to establish MongoDB connection
-export const connectToMongoDB = async (): Promise<Connection> => {
+export const connectToMongoDB = async(): Promise<Connection> => {
   try {
     mongooseConnection = await mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@cluster0.p7l79i6.mongodb.net/?retryWrites=true&w=majority`, {
       dbName: 'test',
@@ -21,7 +21,7 @@ export const connectToMongoDB = async (): Promise<Connection> => {
   }
 };
 
-export const closeMongoDBConnection = async () => {
+export const closeMongoDBConnection = async() => {
   if (mongooseConnection) {
     try {
       await mongooseConnection.disconnect();
