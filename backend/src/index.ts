@@ -36,7 +36,7 @@ app.get('/', (req: Request, res: Response) => {
 app.post('/login', (req, res) => loginUser(req, res));
 app.post('/signup', (req, res) => signUpUser(req, res));
 app.get('/logout', (req, res) => {
-  req.session = null;
+  req.session!.user = null;
   res.redirect('/');
 });
 
