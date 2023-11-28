@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // Routes and Components
 import NotFound from './components/NotFound';
 import NavBar from './components/NavBar';
-import Signup from './components/Signup';
+import Signup from './routes/Signup';
 
 // Routes
 import Home from './routes/Home';
