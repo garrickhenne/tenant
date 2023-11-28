@@ -6,9 +6,9 @@ import Home from './components/Home';
 import UserDashboard from './components/UserDashboard';
 import NavBar from './components/NavBar';
 import Signup from './components/Signup';
+import Login from './routes/Login';
 
-
-function App() {
+const App = () => {
 
   return (
     <BrowserRouter>
@@ -16,11 +16,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<UserDashboard />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

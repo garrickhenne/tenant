@@ -9,10 +9,14 @@ const dbc = require('../controllers/DashboardController');
 const dashboardController = new dbc();
 
 // GET /api/dashboard
-dashboardRouter.get('/', async (req: Request, res: Response) => {
+dashboardRouter.get('/', async(req: Request, res: Response) => {
 
   // TODO fetch the user object / user id
-  const userEmail = "rs@email.com";
+  const userEmail = req.session?.user?.email;
+
+  if (!userEmail) {
+    res.status(401).json({ message: 'Failed to find user email from cookies' });
+  }
 
   // Call the controller to fetch the reviews given the email
   const results = await dashboardController.getDasboardForUser(userEmail);
