@@ -2,10 +2,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 // Routes and Components
 import NotFound from './components/NotFound';
-import Home from './components/Home';
-import UserDashboard from './components/UserDashboard';
 import NavBar from './components/NavBar';
 import Signup from './routes/Signup';
+
+// Routes
+import Home from './routes/Home';
+import UserDashboard from './routes/UserDashboard';
 import Login from './routes/Login';
 
 const App = () => {
