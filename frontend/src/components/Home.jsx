@@ -3,7 +3,7 @@ import reactLogo from '../assets/react.svg';
 import viteLogo from '/vite.svg';
 import '../App.css';
 
-function Home() {
+const Home = () => {
   const [count, setCount] = useState(0);
   return (
     <>
@@ -33,6 +33,6 @@ function Home() {
       </p>
     </>
   );
-}
+};
 
 export default Home;

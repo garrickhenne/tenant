@@ -1,4 +1,4 @@
-function NotFound() {
+const NotFound = () => {
   return (
     <div>
       {/* Tailwind */}
@@ -7,6 +7,6 @@ function NotFound() {
       </h1>
     </div>
   );
-}
+};
 
 export default NotFound;

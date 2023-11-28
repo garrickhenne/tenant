@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import Review from "./Review";
 
-function UserDashboard() {
+const UserDashboard = () => {
 
   const [dashboard, setDashboard] = useState([]);
 
@@ -35,6 +35,6 @@ function UserDashboard() {
       </div>
     </div>
   );
-}
+};
 
 export default UserDashboard;
