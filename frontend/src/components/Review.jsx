@@ -18,7 +18,7 @@ const Review = function(props) {
     <>
       {/* TAILWIND DISPLAY */}
       <div
-        className="absolute max-w-[45rem] whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none m-15"
+        className="absolute max-w-[45rem] whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-transparent p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none m-15"
       >
         <div className="mb-2 flex items-center gap-3">
           <div
@@ -29,17 +29,17 @@ const Review = function(props) {
           </div>
           <div>
             <form onSubmit={(event) => handleSubmit(event)}>
-              <button type="submit">Edit</button>
+              <button className='border border-white' type="submit">Edit</button>
             </form>
           </div>
         </div>
-        <p className="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
+        <p className="block font-sans text-sm font-normal leading-normal text-white-700 antialiased">
           {reviewDesc}
         </p>
         <div className="mt-4 flex items-center gap-5">
           <div className="flex items-center gap-1">
             <span className="h-3 w-3 rounded-full bg-blue-400"></span>
-            <p className="block font-sans text-xs font-normal text-gray-700 antialiased">
+            <p className="block font-sans text-xs font-normal text-white-700 antialiased">
               Health & Safety: {healthSafety} / 5
             </p>
           </div>
@@ -57,7 +57,7 @@ const Review = function(props) {
                 clipRule="evenodd"
               ></path>
             </svg>
-            <p className="block font-sans text-xs font-normal text-gray-700 antialiased">
+            <p className="block font-sans text-xs font-normal text-white-700 antialiased">
               Respect: {respect} / 5
             </p>
           </div>
@@ -75,7 +75,7 @@ const Review = function(props) {
                 clipRule="evenodd"
               ></path>
             </svg>
-            <p className="block font-sans text-xs font-normal text-gray-700 antialiased">
+            <p className="block font-sans text-xs font-normal text-white-700 antialiased">
               Repair: {repair} / 5
             </p>
           </div>
@@ -93,7 +93,7 @@ const Review = function(props) {
                 clipRule="evenodd"
               ></path>
             </svg>
-            <p className="block font-sans text-xs font-normal text-gray-700 antialiased">
+            <p className="block font-sans text-xs font-normal text-white-700 antialiased">
               Sentiment: {sentiment}
             </p>
           </div>
