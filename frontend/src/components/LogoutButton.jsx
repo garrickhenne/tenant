@@ -3,12 +3,10 @@ import { authContext } from "../providers/AuthProvider";
 import { useContext } from 'react';
 import axios from 'axios';
 
-const LOGOUT_URL = 'http://localhost:8000/logout';
-
 const LogoutButton = () => {
   const { user, logout } = useContext(authContext);
   const handleClick = () => {
-    axios.get(LOGOUT_URL, { withCredentials: true })
+    axios.get('/api/logout', { withCredentials: true })
       .then(() => logout())
       .catch((err) => console.log(err));
   };

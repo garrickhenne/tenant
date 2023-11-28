@@ -49,9 +49,9 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.post('/login', (req, res) => loginUser(req, res));
-app.post('/signup', (req, res) => signUpUser(req, res));
-app.get('/logout', (req, res) => {
+app.post('/api/login', (req, res) => loginUser(req, res));
+app.post('/api/signup', (req, res) => signUpUser(req, res));
+app.get('/api/logout', (req, res) => {
   req.session!.user = null;
   res.redirect('/');
 });

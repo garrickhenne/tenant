@@ -3,8 +3,6 @@ import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 import { authContext } from "../providers/AuthProvider";
 
-const LOGIN_URL = 'http://localhost:8000/login';
-
 const LoginForm = () => {
   const { user, login } = useContext(authContext);
   const [email, setEmail] = useState('');
@@ -12,7 +10,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(LOGIN_URL, { email, password }, { withCredentials: true })
+    axios.post('/api/login', { email, password }, { withCredentials: true })
       .then(response => login(response.data))
       .catch(err => console.log(err));
   };
