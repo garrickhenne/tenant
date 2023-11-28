@@ -1,0 +1,30 @@
+.signup {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+label {
+  text-align: left;
+}
+
+.field {
+  width: 300px;
+  height: 40px;
+  border-radius: 50px;
+  border: 2px solid black;
+  margin-bottom: 25px;
+}
+
+.signup-header {
+  font-family: Jost;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
