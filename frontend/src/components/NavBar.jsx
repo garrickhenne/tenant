@@ -18,7 +18,7 @@ const NavBar = () => {
         <NavButton name='About us' path='about' />
         {!user && <NavButton name='Sign up' path='/signup' /> }
         {!user && <NavButton name='Login' path='login' /> }
-        {user && <NavButton name='Account' path='account' />}
+        {user && <NavButton name='Account' path='/dashboard' />}
         {user && <LogoutButton />}
       </div>
     </nav>
