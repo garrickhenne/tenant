@@ -1,7 +1,10 @@
 import NavButton from './NavButton';
 import { Link } from 'react-router-dom';
+import { authContext } from '../providers/AuthProvider';
+import { useContext } from 'react';
 
 const NavBar = () => {
+  const { user } = useContext(authContext);
 
   return(
     <nav className="flex justify-between mb-10">
@@ -12,8 +15,9 @@ const NavBar = () => {
         <NavButton name='Search' path='search' />
         <NavButton name='Reviews' path='reviews' />
         <NavButton name='About us' path='about' />
-        <NavButton name='Sign up' path='/signup' />
-        <NavButton name='Login' path='login' />
+        {!user && <NavButton name='Sign up' path='/signup' /> }
+        {!user && <NavButton name='Login' path='login' /> }
+        {user && <NavButton name='Account' path='account' />}
       </div>
     </nav>
   );
