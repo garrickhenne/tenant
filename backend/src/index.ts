@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cookieSession from 'cookie-session';
 import { loginUser, signUpUser } from './controllers/UserController';
 import morgan from 'morgan';
+import cors from 'cors';
 
 //For env File
 dotenv.config();
@@ -17,6 +18,14 @@ app.use(cookieSession({
   keys: [COOKIE_SESSION_KEY]
 }));
 app.use(morgan('dev'));
+const corsOptions = {
+  origin: ['http://127.0.0.1:5173', 'http://localhost:5173'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+  exposedHeaders: ['set-cookie']
+};
+
+app.use(cors(corsOptions));
 
 const port = process.env.PORT || 8000;
 
