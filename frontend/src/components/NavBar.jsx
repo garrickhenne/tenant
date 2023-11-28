@@ -2,6 +2,7 @@ import NavButton from './NavButton';
 import { Link } from 'react-router-dom';
 import { authContext } from '../providers/AuthProvider';
 import { useContext } from 'react';
+import LogoutButton from './LogoutButton';
 
 const NavBar = () => {
   const { user } = useContext(authContext);
@@ -18,6 +19,7 @@ const NavBar = () => {
         {!user && <NavButton name='Sign up' path='/signup' /> }
         {!user && <NavButton name='Login' path='login' /> }
         {user && <NavButton name='Account' path='account' />}
+        {user && <LogoutButton />}
       </div>
     </nav>
   );
