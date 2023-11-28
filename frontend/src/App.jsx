@@ -5,6 +5,8 @@ import NotFound from './components/NotFound';
 import Home from './components/Home';
 import UserDashboard from './components/UserDashboard';
 import NavBar from './components/NavBar';
+import Signup from '../components/Signup';
+
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<UserDashboard />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
