@@ -4,13 +4,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import Home from './components/Home';
 import UserDashboard from './components/UserDashboard';
-import TopNavigationBar from './components/TopNavigationBar';
+import NavBar from './components/NavBar';
 
 function App() {
 
   return (
     <BrowserRouter>
-      <TopNavigationBar />
+      <NavBar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/dashboard' element={<UserDashboard />} />
