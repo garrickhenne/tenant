@@ -6,7 +6,7 @@ import axios from 'axios';
 const LogoutButton = () => {
   const { user, logout } = useContext(authContext);
   const handleClick = () => {
-    axios.get('/api/logout', { withCredentials: true })
+    axios.get('/api/logout')
       .then(() => logout())
       .catch((err) => console.log(err));
   };

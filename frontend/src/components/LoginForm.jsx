@@ -10,7 +10,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/login', { email, password }, { withCredentials: true })
+    axios.post('/api/login', { email, password })
       .then(response => login(response.data))
       .catch(err => console.log(err));
   };
