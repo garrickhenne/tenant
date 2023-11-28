@@ -32,12 +32,6 @@ app.use(cors(corsOptions));
 
 const port = process.env.PORT || 8000;
 
-// Middleware to log incoming requests
-app.use((req, _res, next) => {
-  console.log(`Request Made: ${req.method} ${req.url}`);
-  next();
-});
-
 // Mount the routers for specific URLS
 app.use('/api/dashboard', dashboardRouter);
 
