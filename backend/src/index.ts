@@ -5,6 +5,11 @@ import cookieSession from 'cookie-session';
 import { loginUser, signUpUser } from './controllers/UserController';
 import morgan from 'morgan';
 
+// 
+// TODO remove me when done testing
+// 
+import { createLandlordRequest, findLandlordByNameRequest } from './controllers/ReviewController';
+
 //routes
 const dashboardRouter = require('./routes/dashboardRouter');
 
@@ -33,6 +38,16 @@ app.use('/api/dashboard', dashboardRouter);
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
+
+// 
+// TODO remove when done
+//
+app.get('/api/s', (req, res) => findLandlordByNameRequest(req, res));
+app.post('/api/createNewLandLord', (req, res) => createLandlordRequest(req, res));
+
+const doStuff = function () {
+  console.log("hit");
+};
 
 app.post('/api/login', (req, res) => loginUser(req, res));
 app.post('/api/signup', (req, res) => signUpUser(req, res));
