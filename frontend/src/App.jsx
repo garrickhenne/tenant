@@ -9,6 +9,7 @@ import Signup from './routes/Signup';
 import Home from './routes/Home';
 import UserDashboard from './routes/UserDashboard';
 import Login from './routes/Login';
+import NewReview from './routes/NewReview';
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path='/dashboard' element={<UserDashboard />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/reviews/new' element={<NewReview />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
