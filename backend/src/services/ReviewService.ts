@@ -6,6 +6,7 @@ import { getCalculatedReviewScore } from './ServicesHelper';
 import { findByUserEmail, } from '../services/UserService';
 import { createLandlord, findLandlordByName } from '../services/LandlordService';
 import { createProperty, getProperty } from '../services/PropertyService';
+import { callGoogleSenti } from '../apis/google-natural-lang-api';
 
 export const createReview = (
   email: string,
@@ -28,99 +29,111 @@ export const createReview = (
   let landlordId: Types.ObjectId;
   let propertyId: Types.ObjectId;
 
-  // TODO promise based API call then chain the rest.
-  const sentiment = 0;
+  // promise based API call then chain the rest.
+  // NOTE: sentiment is the raw value from google api, which ranges from -1 to 1.  This is what gets stored in the DB.
+  let sentiment = 0;
+  let calculatedScore = 0;
 
-  const calculatedScore = getCalculatedReviewScore(
-    healthSafety,
-    respect,
-    repair,
-    sentiment
-  );
+  //Sorry in advanced for future me (or any devs who has to look at this promise chain).  Maybe async await would be easier to read.
 
-  console.log(landlord_first_name, landlord_last_name);
-  return findByUserEmail(email).then((user) => {
-
-    if (!user) {
-      // return error, no user from this email
-      console.log("Email for this user does not exist.");
-      return null;
+  // first lets get the sentiment score
+  return callGoogleSenti(desc).then((score) => {
+    if (score) {
+      sentiment = score;
     }
 
-    // if valid user, assign the object id
-    userId = user._id;
+    //calculate the 'grand score'
+    calculatedScore = getCalculatedReviewScore(
+      healthSafety,
+      respect,
+      repair,
+      sentiment
+    );
 
-    return findLandlordByName(landlord_first_name, landlord_last_name)
+    return findByUserEmail(email).then((user) => {
+
+      if (!user) {
+        // return error, no user from this email
+        console.log("Email for this user does not exist.");
+        return null;
+      }
+
+      // if valid user, assign the object id
+      userId = user._id;
+
+      return findLandlordByName(landlord_first_name, landlord_last_name)
+        .catch(error => {
+          console.log(error, "error fetching a landord given the name.");
+          return null;
+        });
+    }).then((landlord) => {
+
+      if (!landlord) {
+
+        // Create a new landlord
+        return createLandlord(landlord_first_name, landlord_last_name, organization)
+          .then((result) => {
+            landlordId = result._id;
+
+            // Create property with landlordId just above
+            return createProperty(postal_code, street_name, street_num, landlordId)
+              .then(newProperty => {
+                propertyId = newProperty._id;
+
+                // ...Finally we have all 2 ids, create Review.
+                return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId)
+                  .catch(error => {
+                    console.log(error, "error creating review.");
+                    return null;
+                  });
+              })
+              .catch(error => {
+                console.log(error, "error creating a new property in ReviewService.");
+                return null;
+              });
+          })
+          .catch(error => {
+            console.log("Could not create a new landlord in Review Service.", error);
+            return null;
+          });
+      }
+      // Landlord exists
+      else {
+        landlordId = landlord._id;
+
+        return getProperty(postal_code, street_name, street_num)
+          .then((foundProperty) => {
+            if (foundProperty) {
+              return foundProperty;
+            } else {
+              // Create property with landlordId just above
+              return createProperty(postal_code, street_name, street_num, landlordId);
+            }
+          })
+          .then(property => {
+            propertyId = property._id;
+
+            // ...Finally we have all 2 ids, create Review.
+            return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId);
+          })
+          .catch(err => {
+            console.log(err, 'Error creating review');
+            return null;
+          });
+      }
+    })
       .catch(error => {
-        console.log(error, "error fetching a landord given the name.");
+        // from email
+        console.log(error, "error fetching user from email.");
         return null;
       });
-  }).then((landlord) => {
-
-    if (!landlord) {
-
-      // Create a new landlord
-      return createLandlord(landlord_first_name, landlord_last_name, organization)
-        .then((result) => {
-          landlordId = result._id;
-
-          // Create property with landlordId just above
-          return createProperty(postal_code, street_name, street_num, landlordId)
-            .then(newProperty => {
-              propertyId = newProperty._id;
-
-              // ...Finally we have all 2 ids, create Review.
-              return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId)
-                .catch(error => {
-                  console.log(error, "error creating review.");
-                  return null;
-                });
-            })
-            .catch(error => {
-              console.log(error, "error creating a new property in ReviewService.");
-              return null;
-            });
-        })
-        .catch(error => {
-          console.log("Could not create a new landlord in Review Service.", error);
-          return null;
-        });
-    }
-    // Landlord exists
-    else {
-      landlordId = landlord._id;
-
-      return getProperty(postal_code, street_name, street_num)
-        .then((foundProperty) => {
-          if (foundProperty) {
-            return foundProperty;
-          } else {
-            // Create property with landlordId just above
-            return createProperty(postal_code, street_name, street_num, landlordId);
-          }
-        })
-        .then(property => {
-          propertyId = property._id;
-
-          // ...Finally we have all 2 ids, create Review.
-          return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId);
-        })
-        .catch(err => {
-          console.log(err, 'Error creating review');
-          return null;
-        });
-    }
-  })
-    .catch(error => {
-      // from email
-      console.log(error, "error fetching user from email.");
-      return null;
-    });
+  });
 };
 
-const createReviewWithUpdatedValues = function(
+const createReviewWithUpdatedValues = function (
   title: string,
   desc: string,
+  //raw sent. score from Google API.
   sentiment: number,
   healthSafety: number,
   respect: number,
