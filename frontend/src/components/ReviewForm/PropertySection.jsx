@@ -14,10 +14,9 @@ const PropertySection = () => {
       <div className="flex-grow">
         <AutoCompleteInput val={postCode} setVal={setPostCode} />
       </div>
-      {/* <InputTextBox labelText='Postal Code' placeHolderText='A1B-2C3' val={postCode} setVal={setPostCode} /> */}
-      <InputTextBox labelText='Street Number' placeHolderText='Street # (optional)' val={streetNumber} setVal={setStreetNumber} />
+      <InputTextBox labelText='Street Number' placeHolderText='Street #' val={streetNumber} setVal={setStreetNumber} />
       <div className="flex-grow">
-        <InputTextBox labelText='Street Name' placeHolderText='Street name (optional)' inputWidth={80} val={streetName} setVal={setStreetName} />
+        <InputTextBox labelText='Street Name' placeHolderText='Street name' inputWidth={80} val={streetName} setVal={setStreetName} />
       </div>
     </FormSection>
   );
