@@ -5,7 +5,7 @@ import Review, { IReview } from '../model/Review';
 import { getCalculatedReviewScore } from './ServicesHelper';
 import { findByUserEmail, } from '../services/UserService';
 import { createLandlord, findLandlordByName } from '../services/LandlordService';
-import { createProperty } from '../services/PropertyService';
+import { createProperty, getProperty } from '../services/PropertyService';
 
 export const createReview = (
   email: string,
@@ -90,23 +90,26 @@ export const createReview = (
     else {
       landlordId = landlord._id;
 
-      // Create property with landlordId just above
-      return createProperty(postal_code, street_name, street_num, landlordId)
-        .then(newProperty => {
-          propertyId = newProperty._id;
+      return getProperty(postal_code, street_name, street_num)
+        .then((foundProperty) => {
+          if (foundProperty) {
+            return foundProperty;
+          } else {
+            // Create property with landlordId just above
+            return createProperty(postal_code, street_name, street_num, landlordId);
+          }
+        })
+        .then(property => {
+          propertyId = property._id;
 
           // ...Finally we have all 2 ids, create Review.
-          return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId)
-            .catch((error) => {
-              console.log(error, "error creating review.");
-              return null;
-            });
+          return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId);
         })
-        .catch(error => {
-          console.log(error, "error creating a new property in ReviewService.");
+        .catch(err => {
+          console.log(err, 'Error creating review');
           return null;
         });
-    };
+    }
   })
     .catch(error => {
       // from email
@@ -115,7 +118,7 @@ export const createReview = (
     });
 };
 
-const createReviewWithUpdatedValues = function (
+const createReviewWithUpdatedValues = function(
   title: string,
   desc: string,
   sentiment: number,
