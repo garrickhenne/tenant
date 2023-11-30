@@ -10,8 +10,8 @@ import { LanguageServiceClient } from '@google-cloud/language';
 
 const languageClient = new LanguageServiceClient();
 
-const callGoogleSenti = function(inputText: string) {
-  
+export const callGoogleSenti = function (inputText: string): Promise<number | null> {
+
   const document: IDocument = {
     content: inputText,
     type: 'PLAIN_TEXT', // or 'HTML' for HTML content
@@ -30,7 +30,8 @@ const callGoogleSenti = function(inputText: string) {
     };
   }
 
-  const calculateSentimentAverage = function(entities: IEntity[]): number | null {
+  const calculateSentimentAverage = function (entities: IEntity[]): number | null {
+
     if (entities.length === 0) {
       return null;
     }
@@ -42,18 +43,18 @@ const callGoogleSenti = function(inputText: string) {
     }
 
     const averageScore = totalScore / entities.length;
-
     return averageScore;
   };
 
   // Detects sentiment of entities in the document
-  languageClient.analyzeEntitySentiment({ document })
+  return languageClient.analyzeEntitySentiment({ document })
     .then(([result]) => {
       const entities: any = result.entities;
-      calculateSentimentAverage(entities);
+      return calculateSentimentAverage(entities);
     })
     .catch((error) => {
       console.error('Error:', error);
+      return null;
     });
 };
 
