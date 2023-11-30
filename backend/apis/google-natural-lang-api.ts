@@ -10,7 +10,7 @@ import { LanguageServiceClient } from '@google-cloud/language';
 
 const languageClient = new LanguageServiceClient();
 
-const callClassifyText = async function(inputText: string) {
+const callGoogleSenti = function(inputText: string) {
   
   const document: IDocument = {
     content: inputText,
@@ -23,9 +23,6 @@ const callClassifyText = async function(inputText: string) {
     // Other properties...
   }
 
-  // Detects sentiment of entities in the document
-  const [result] = await languageClient.analyzeEntitySentiment({ document });
-  
   interface IEntity {
     sentiment: {
       magnitude: number;
@@ -33,9 +30,6 @@ const callClassifyText = async function(inputText: string) {
     };
   }
 
-  const entities: any = result.entities;
-
-  // Helper function to calculate the average sentiment score.
   const calculateSentimentAverage = function(entities: IEntity[]): number | null {
     if (entities.length === 0) {
       return null;
@@ -51,12 +45,16 @@ const callClassifyText = async function(inputText: string) {
 
     return averageScore;
   };
-  calculateSentimentAverage(entities);
+
+  // Detects sentiment of entities in the document
+  languageClient.analyzeEntitySentiment({ document })
+    .then(([result]) => {
+      const entities: any = result.entities;
+      calculateSentimentAverage(entities);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 };
 
-process.on('unhandledRejection', err => {
-  console.error(err);
-  process.exitCode = 1;
-});
-
-export default callClassifyText;
+export default callGoogleSenti;
