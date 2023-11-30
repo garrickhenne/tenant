@@ -6,8 +6,34 @@ import mongoose, { Types } from "mongoose";
 
 // Other Services
 import { findByUserEmail, } from '../services/UserService';
-import { createNewLandlord, findLandlordByName } from '../services/LandlordService';
+import { createLandlord, findLandlordByName } from '../services/LandlordService';
 import { createProperty } from '../services/PropertyService';
+
+// export const createReview = (
+//   // Step 1
+//   email: string,
+//   landlord_first_name: string,
+//   landlord_last_name: string,
+//   organization: string,
+//   postal_code: string,
+//   street_num: number,
+//   street_name: string,
+//   healthSafety: number,
+//   respect: number,
+//   repair: number,
+//   title: string,
+//   desc: string
+// ): Promise<IReview> | null => {
+
+//   findByUserEmail(email)
+//     .then(() => {
+//       return null;
+//     })
+//     .catch(() => {
+//       return null;
+//     });
+//   // return null;
+// };
 
 export const createReview = (
   // Step 1
@@ -23,68 +49,17 @@ export const createReview = (
   repair: number,
   title: string,
   desc: string
-): Promise<IReview> => {
+  // the promise from IReview could be the object or null
+  // the | null is for every other API call
+): Promise<IReview | null> => {
 
   let userId: Types.ObjectId;
   let landlordId: Types.ObjectId;
   let propertyId: Types.ObjectId;
 
-  // Step 2
-  findByUserEmail(email).then((user) => {
-
-    if (!user) {
-      // return error, no user from this email
-      throw Error("Email for this user does not exist.");
-    }
-
-    // if valid user, assign the object id
-    userId = user._id;
-
-    return findLandlordByName(landlord_first_name, landlord_last_name);
-  }).then((landlord) => {
-
-    if (!landlord) {
-
-      // Create a new landlord
-      return createNewLandlord(landlord_first_name, landlord_last_name, organization)
-        .then((result) => {
-          landlordId = result._id;
-
-          // Create property with landlordId just above
-          createProperty(postal_code, street_name, street_num, landlordId)
-            .then(newProperty => {
-              propertyId = newProperty._id;
-
-              // ...Finally we have all 3 ids, create Review.
-            })
-            .catch(error => {
-              console.log(error, "error creating a new property in ReviewService.");
-            });
-        })
-        .catch(error => {
-          console.log("Could not create a new landlord in Review Service.");
-        });
-    }
-    // Landlord exists
-    else {
-      landlordId = landlord._id;
-
-      // Create property with landlordId just above
-      createProperty(postal_code, street_name, street_num, landlordId)
-        .then(newProperty => {
-          propertyId = newProperty._id;
-
-          // ...Finally we have all 3 ids, create Review.
-        })
-        .catch(error => {
-          console.log(error, "error creating a new property in ReviewService.");
-        });
-    };
-  });
-  // TODO Step 3
+  // TODO promise based API call then chain the rest.
   const sentiment = 0;
 
-  // Step 4
   const calculatedScore = getCalculatedReviewScore(
     healthSafety,
     respect,
@@ -92,6 +67,97 @@ export const createReview = (
     sentiment
   );
 
+  console.log(landlord_first_name, landlord_last_name);
+  return findByUserEmail(email).then((user) => {
+
+    if (!user) {
+      // return error, no user from this email
+      console.log("Email for this user does not exist.");
+      return null;
+    }
+
+    // if valid user, assign the object id
+    userId = user._id;
+
+    return findLandlordByName(landlord_first_name, landlord_last_name)
+      .catch(error => {
+        console.log(error, "error fetching a landord given the name.");
+        return null;
+      });
+  }).then((landlord) => {
+
+    if (!landlord) {
+
+      // Create a new landlord
+
+      return createLandlord(landlord_first_name, landlord_last_name, organization)
+        .then((result) => {
+          landlordId = result._id;
+
+          // Create property with landlordId just above
+          console.log("street_num", street_num);
+          return createProperty(postal_code, street_name, street_num, landlordId)
+            .then(newProperty => {
+              propertyId = newProperty._id;
+
+              // ...Finally we have all 2 ids, create Review.
+              return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId)
+                .catch(error => {
+                  console.log(error, "error creating review.");
+                  return null;
+                });
+            })
+            .catch(error => {
+              console.log(error, "error creating a new property in ReviewService.");
+              return null;
+            });
+        })
+        .catch(error => {
+          console.log("Could not create a new landlord in Review Service.", error);
+          return null;
+        });
+    }
+    // Landlord exists
+    else {
+      landlordId = landlord._id;
+
+      // Create property with landlordId just above
+      console.log("street_num", street_num);
+      return createProperty(postal_code, street_name, street_num, landlordId)
+        .then(newProperty => {
+          propertyId = newProperty._id;
+
+          // ...Finally we have all 2 ids, create Review.
+          return createReviewWithUpdatedValues(title, desc, sentiment, healthSafety, respect, repair, calculatedScore, userId, landlordId)
+            .catch((error) => {
+              console.log(error, "error creating review.");
+              return null;
+            });
+        })
+        .catch(error => {
+          console.log(error, "error creating a new property in ReviewService.");
+          return null;
+        });
+    };
+  })
+    .catch(error => {
+      // from email
+      console.log(error, "error fetching user from email.");
+      return null;
+    });
+};
+
+const createReviewWithUpdatedValues = function (
+  title: string,
+  desc: string,
+  sentiment: number,
+  healthSafety: number,
+  respect: number,
+  repair: number,
+  calculatedScore: number,
+  userId: Types.ObjectId,
+  landlordId: Types.ObjectId
+): Promise<IReview> {
   // Step 5
   const review: HydratedDocument<IReview> = new Review({
     title: title,
@@ -101,9 +167,10 @@ export const createReview = (
     respect: respect,
     repair: repair,
     overallScore: calculatedScore,
-    userId: 'TODO',
-    landlordId: 'TODO'
+    userId: userId,
+    landlordId: landlordId,
   });
+  console.log("attempting to create review");
   return review.save();
 };
 

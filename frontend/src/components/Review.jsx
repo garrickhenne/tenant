@@ -15,10 +15,12 @@ const Review = function(props) {
   };
 
   return (
-    <>
-      {/* TAILWIND DISPLAY */}
+
+    <li>
+
+
       <div
-        className="absolute max-w-[45rem] whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-transparent p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none m-15"
+        className="max-w-[45rem] whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-transparent p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none m-15"
       >
         <div className="mb-2 flex items-center gap-3">
           <div
@@ -99,32 +101,7 @@ const Review = function(props) {
           </div>
         </div>
       </div>
-
-      {/* SIMPLIFIED DISPLAY / COMMENTED OUT FOR NOW*/}
-      {/* <div>
-        Title: {reviewTitle}
-      </div>
-      <div>
-        Description: {reviewDesc}
-      </div>
-      <div>
-        Sentiment: {sentiment}
-      </div>
-      <div>
-        Health & Safety: {healthSafety} / 5
-      </div>
-      <div>
-        Respect: {respect} / 5
-      </div>
-      <div>
-        Repair: {repair} / 5
-      </div>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <button type="submit">Edit</button>
-        </form>
-      </div> */}
-    </>
+    </li>
   );
 };
 

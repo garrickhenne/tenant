@@ -9,6 +9,7 @@ import morgan from 'morgan';
 // TODO remove me when done testing
 // 
 import { createLandlordRequest, findLandlordByNameRequest } from './controllers/ReviewController';
+import { createReviewRequest } from './controllers/ReviewController';
 
 //routes
 const dashboardRouter = require('./routes/dashboardRouter');
@@ -42,12 +43,9 @@ app.get('/', (req: Request, res: Response) => {
 // 
 // TODO remove when done
 //
+app.post('/api/createReview', (req, res) => createReviewRequest(req, res));
 app.get('/api/s', (req, res) => findLandlordByNameRequest(req, res));
 app.post('/api/createNewLandLord', (req, res) => createLandlordRequest(req, res));
-
-const doStuff = function () {
-  console.log("hit");
-};
 
 app.post('/api/login', (req, res) => loginUser(req, res));
 app.post('/api/signup', (req, res) => signUpUser(req, res));

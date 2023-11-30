@@ -16,10 +16,10 @@ export const createNewLandlord = (
   return new Promise((resolve, reject) => {
     LandlordModel.create({ firstName, lastName, organization })
       .then((result) => {
-        console.log(result);
         resolve(result);
       })
       .catch((error: Error) => {
+        console.log(error);
         reject(new Error(`Failed to create landlord: ${error}`));
       });
   });
