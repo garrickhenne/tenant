@@ -2,18 +2,15 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState, useContext } from "react";
 import { newReviewContext } from "../../providers/NewReviewProvider";
+import axios from "axios";
 
-const givenOptions = [
-  { firstName: 'Garrick', lastName: 'Henne', postalCode: 'V5N-2C4' },
-  { firstName: 'Kenzie', lastName: 'Littlelight', postalCode: 'V5Z-4A6' }
-];
-
-const sleep = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, 2000);
-  });
+const getProperties = async(firstName, lastName) => {
+  const params = {
+    firstName,
+    lastName
+  };
+  const response = await axios.get('/api/getProperties', { params });
+  return response.data;
 };
 
 const theme = createTheme({
@@ -33,7 +30,7 @@ const theme = createTheme({
 });
 
 const AutoCompleteInput = ({ val, setVal }) => {
-  const { landlord } = useContext(newReviewContext);
+  const { landlord, property } = useContext(newReviewContext);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
   const loading = open && options.length === 0;
@@ -46,13 +43,13 @@ const AutoCompleteInput = ({ val, setVal }) => {
     }
 
     (async() => {
-      await sleep();
-
+      const givenOptions = await getProperties(landlord.firstName, landlord.lastName);
+      
       if (active) {
         setOptions([...givenOptions]);
       }
     })();
-  }, [loading]);
+  }, [loading, landlord.firstName, landlord.lastName]);
 
   useEffect(() => {
     if (!open) {
@@ -72,23 +69,19 @@ const AutoCompleteInput = ({ val, setVal }) => {
           onClose={() => {
             setOpen(false);
           }}
-          onChange={(event, value, reason) => {
-            console.log(value);
-            console.log(reason);
-            landlord.setFirstName(value.firstName);
-            landlord.setLastName(value.lastName);
+          onChange={(_, value) => {
             setVal(value.postalCode);
+            property.setStreetNumber(value.streetNumber);
+            property.setStreetName(value.streetName);
           }}
-          isOptionEqualToValue={ (option, value) => option.firstName === value.firstName && option.lastName == value.lastName }
+          isOptionEqualToValue={ (option, value) => option.postalCode === value.postalCode }
           getOptionLabel={(option) => {
-            return `${option.firstName} ${option.lastName} ${option.postalCode}`;
+            return `${option.postalCode} - ${option.streetName} ${option.streetNumber}`;
           }}
           options={options}
-          loading={loading}
           freeSolo
           disableClearable
           fullWidth
-          loadingText='Finding landlords...'
           id="free-solo-demo"
           renderInput={(params) => {
             return(
