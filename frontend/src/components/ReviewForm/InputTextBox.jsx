@@ -1,7 +1,4 @@
 const InputTextBox = ({ labelText, placeHolderText, minWidth, val, setVal }) => {
-  const handleChange = (e) => {
-    setVal(e.target.value);
-  };
 
   return(
     <div className="text-start gap-y-1 w-auto">
@@ -10,7 +7,7 @@ const InputTextBox = ({ labelText, placeHolderText, minWidth, val, setVal }) => 
         type="text"
         placeholder={ placeHolderText }
         className={`bg-transparent border border-white rounded-sm pl-3 h-9 ${minWidth}`}
-        onChange={ handleChange }
+        onChange={ (e) => setVal(e.target.value) }
         value={ val } />
     </div>
   );
