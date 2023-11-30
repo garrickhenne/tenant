@@ -1,10 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-export interface IUser {
+export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  dateCreated: Date
+  dateCreated: Date;
 }
 
 const userSchema = new Schema<IUser>({
@@ -14,6 +14,6 @@ const userSchema = new Schema<IUser>({
   dateCreated: { type: Date, default: new Date(), immutable: true }
 });
 
-const User =  mongoose.model<IUser>('User', userSchema);
+const User = mongoose.model<IUser>('User', userSchema);
 
 export default User;

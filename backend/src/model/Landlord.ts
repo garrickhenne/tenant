@@ -1,13 +1,13 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
 // Helpful doc for use in typescript: https://mongoosejs.com/docs/typescript.html
 
 // 1. Create an interface representing a document in MongoDB.
-export interface ILandlord {
+export interface ILandlord extends Document {
   firstName: string;
   lastName: string;
   organization?: string;
-  createdAt?: Date
+  createdAt?: Date;
 }
 
 // 2. Create a Schema corresponding to the document interface.
