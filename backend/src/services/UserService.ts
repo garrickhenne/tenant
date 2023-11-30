@@ -4,7 +4,7 @@ import { hash, compare } from 'bcrypt';
 
 const SALT_ROUNDS = 10;
 
-const findByUserEmail = (email: string): Promise<IUser | null> => {
+export const findByUserEmail = (email: string): Promise<IUser | null> => {
   return User.findOne({ email }).exec();
 };
 
@@ -21,6 +21,7 @@ export const createUser = (username: string, email: string, password: string): P
       return user.save();
     });
 };
+
 
 export const authUserCredentials = (email: string, password: string): Promise<IUser | null> => {
   // First, get the hashed password of the user from db with email.

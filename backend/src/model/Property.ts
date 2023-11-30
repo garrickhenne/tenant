@@ -1,6 +1,6 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
-interface IProperty {
+export interface IProperty extends Document {
   postalCode: string;
   streetName: string;
   streetNumber: number;

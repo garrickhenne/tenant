@@ -15,3 +15,7 @@ export const findLandlordById = (landlordId: string): Promise<ILandlord | null> 
 export const deleteLandlord = (landlordId: string): Promise<ILandlord | null> => {
   return LandlordModel.findByIdAndDelete(landlordId).exec();
 };
+
+export const findLandlordByName = (firstName: string, lastName: string): Promise<ILandlord | null> => {
+  return LandlordModel.findOne({ firstName: firstName, lastName: lastName });
+};
