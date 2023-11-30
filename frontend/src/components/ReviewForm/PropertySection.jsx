@@ -2,14 +2,19 @@ import FormSection from "./FormSection";
 import InputTextBox from "./InputTextBox";
 import { useContext } from "react";
 import { newReviewContext } from "../../providers/NewReviewProvider";
+import AutoCompleteInput from "./AutoCompleteInput";
 
 const PropertySection = () => {
   const { property } = useContext(newReviewContext);
   const { postCode, setPostCode, streetNumber, setStreetNumber, streetName, setStreetName } = property;
 
+  // Property expects landlord do be filled in already in order to have properties searchable.
   return(
     <FormSection  titleLabel='Property Details'>
-      <InputTextBox labelText='Postal Code' placeHolderText='A1B-2C3' val={postCode} setVal={setPostCode} />
+      <div className="flex-grow">
+        <AutoCompleteInput val={postCode} setVal={setPostCode} />
+      </div>
+      {/* <InputTextBox labelText='Postal Code' placeHolderText='A1B-2C3' val={postCode} setVal={setPostCode} /> */}
       <InputTextBox labelText='Street Number' placeHolderText='Street # (optional)' val={streetNumber} setVal={setStreetNumber} />
       <div className="flex-grow">
         <InputTextBox labelText='Street Name' placeHolderText='Street name (optional)' inputWidth={80} val={streetName} setVal={setStreetName} />
