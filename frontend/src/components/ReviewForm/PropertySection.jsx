@@ -16,7 +16,7 @@ const PropertySection = () => {
       </div>
       <InputTextBox labelText='Street Number' placeHolderText='Street #' val={streetNumber} setVal={setStreetNumber} />
       <div className="flex-grow">
-        <InputTextBox labelText='Street Name' placeHolderText='Street name' inputWidth={80} val={streetName} setVal={setStreetName} />
+        <InputTextBox labelText='Street Name' placeHolderText='Street name' minWidth={'min-w-[80%]'} val={streetName} setVal={setStreetName} />
       </div>
     </FormSection>
   );

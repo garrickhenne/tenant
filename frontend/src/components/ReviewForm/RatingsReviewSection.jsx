@@ -12,7 +12,7 @@ const RatingsReviewSection = () => {
   return(
     <FormSection titleLabel='Ratings and Review' displayRow={true}>
       <RatingsCollection />
-      <InputTextBox labelText='Title' placeHolderText='Review Title' inputWidth={75} val={title} setVal={setTitle} />
+      <InputTextBox labelText='Title' placeHolderText='Review Title' minWidth={'min-w-[80%]'} val={title} setVal={setTitle} />
       <ReviewTextInput labelText='Review' placeHolderText='Write your Review' val={review} setVal={setReview} />
     </FormSection>
   );
