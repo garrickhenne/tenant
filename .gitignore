@@ -17,3 +17,6 @@
 
 # Visual Studio Code settings (optional)
 .vscode/settings.json
+
+#Google Natural Language authentication
+.gac.json
