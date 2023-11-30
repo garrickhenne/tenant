@@ -4,9 +4,10 @@ import LandlordSection from "./LandlordSection";
 import PropertySection from "./PropertySection";
 import RatingsReviewSection from "./RatingsReviewSection";
 import axios from 'axios';
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ReviewForm = () => {
+  const navigate = useNavigate();
   const { landlord, property, reviewRating } = useContext(newReviewContext);
 
   const handleSubmit = (e) => {
@@ -33,7 +34,7 @@ const ReviewForm = () => {
       .then(response => {
         console.log('Created a review!');
         console.log(response.data);
-        <Navigate to='/dashboard' />;
+        navigate('/dashboard');
       })
       .catch(err => console.log(err));
   };
