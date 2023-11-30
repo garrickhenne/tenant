@@ -30,23 +30,20 @@ export const callGoogleSenti = function (inputText: string): Promise<number | nu
     };
   }
 
-  const calculateSentimentAverage = function (entities: IEntity[]): Promise<number> {
+  const calculateSentimentAverage = function (entities: IEntity[]): number | null {
 
-    return new Promise((resolve, _reject) => {
-      if (entities.length === 0) {
-        return null;
-      }
+    if (entities.length === 0) {
+      return null;
+    }
 
-      let totalScore = 0;
+    let totalScore = 0;
 
-      for (const entity of entities) {
-        totalScore += entity.sentiment.score;
-      }
+    for (const entity of entities) {
+      totalScore += entity.sentiment.score;
+    }
 
-      const averageScore = totalScore / entities.length;
-      resolve(averageScore);
-    });
-
+    const averageScore = totalScore / entities.length;
+    return averageScore;
   };
 
   // Detects sentiment of entities in the document
