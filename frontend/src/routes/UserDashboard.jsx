@@ -30,14 +30,16 @@ const UserDashboard = () => {
     <div>
       {/* Tailwind */}
       <h1 className='text-3xl font-bold underline'>
-        Dashboard for { user }
+        Dashboard for {user}
       </h1>
-      <div>
-        {/* Go through each review and assign render a Review Component */}
-        {dashboard.map(item => {
-          console.log(item);
-          return <Review key={item._id} item={item} />;
-        })}
+      <div >
+        <ul class='space-y-4'>
+          {/* Go through each review and assign render a Review Component */}
+          {dashboard.map(item => {
+            console.log(item);
+            return <Review key={item._id} item={item} />;
+          })}
+        </ul>
       </div>
     </div>
   );
