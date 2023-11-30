@@ -18,3 +18,7 @@ export const getProperties = (landLordFirstName: string, landLordLastName: strin
       return Property.find({ landlordId: { $in: landlordIds } });
     });
 };
+
+export const getProperty = (postalCode: string, streetName: string, streetNum: number): Promise<IProperty | null> => {
+  return Property.findOne({ postalCode, streetName, streetNumber: streetNum }).exec();
+};
