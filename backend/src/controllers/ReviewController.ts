@@ -4,16 +4,16 @@ import { createReview } from '../services/ReviewService';
 export const createReviewRequest = (req: Request, res: Response) => {
   const {
     title,
-    landlord_first_name,
-    landlord_last_name,
+    firstName, //landlord
+    lastName, //landlord
     organization,
-    postal_code,
-    street_num,
-    street_name,
-    healthSafety,
-    respect,
-    repair,
-    desc,
+    postCode,
+    streetNumber,
+    streetName,
+    healthSafetyRating,
+    respectRating,
+    repairRating,
+    review,
   } = req.body;
 
   // get the user
@@ -24,17 +24,17 @@ export const createReviewRequest = (req: Request, res: Response) => {
 
   createReview(
     user.email,
-    landlord_first_name,
-    landlord_last_name,
+    firstName, //landlord
+    lastName, //landlord
     organization,
-    postal_code,
-    street_num,
-    street_name,
-    healthSafety,
-    respect,
-    repair,
+    postCode,
+    streetNumber,
+    streetName,
+    healthSafetyRating,
+    respectRating,
+    repairRating,
     title,
-    desc
+    review
   )
     .then(newReview => {
       if (newReview) {
