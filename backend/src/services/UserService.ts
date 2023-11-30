@@ -1,4 +1,4 @@
-import { HydratedDocument } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
 import User, { IUser } from "../model/User";
 import { hash, compare } from 'bcrypt';
 
@@ -7,6 +7,18 @@ const SALT_ROUNDS = 10;
 export const findByUserEmail = (email: string): Promise<IUser | null> => {
   return User.findOne({ email }).exec();
 };
+
+// // Ttpescript: "Lets make it really easy for devs to get lost in syntax"
+// export const findByUserEmailWithId = (email: string): Promise<IUser & { _id: Types.ObjectId; }> => {
+//   return User.findOne({ email }).exec()
+//     .then(user => {
+//       if (user) {
+//         // Assuming the user has an _id field of type Types.ObjectId
+//         return user as IUser & { _id: Types.ObjectId; };
+//       }
+//       throw new Error('User not found');
+//     });
+// };
 
 export const createUser = (username: string, email: string, password: string): Promise<IUser> => {
   // Translated to lowercase for edge cases.

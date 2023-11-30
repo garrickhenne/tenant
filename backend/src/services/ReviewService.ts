@@ -1,14 +1,42 @@
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import Review, { IReview } from '../model/Review';
 
-// Services
 import { getCalculatedReviewScore } from './ServicesHelper';
+import mongoose, { Types } from "mongoose";
+
+// Other Services
 import { findByUserEmail, } from '../services/UserService';
 import { createLandlord, findLandlordByName } from '../services/LandlordService';
 import { createProperty } from '../services/PropertyService';
 
+// export const createReview = (
+//   // Step 1
+//   email: string,
+//   landlord_first_name: string,
+//   landlord_last_name: string,
+//   organization: string,
+//   postal_code: string,
+//   street_num: number,
+//   street_name: string,
+//   healthSafety: number,
+//   respect: number,
+//   repair: number,
+//   title: string,
+//   desc: string
+// ): Promise<IReview> | null => {
+
+//   findByUserEmail(email)
+//     .then(() => {
+//       return null;
+//     })
+//     .catch(() => {
+//       return null;
+//     });
+//   // return null;
+// };
 
 export const createReview = (
+  // Step 1
   email: string,
   landlord_first_name: string,
   landlord_last_name: string,
@@ -39,6 +67,7 @@ export const createReview = (
     sentiment
   );
 
+  console.log(landlord_first_name, landlord_last_name);
   return findByUserEmail(email).then((user) => {
 
     if (!user) {
@@ -58,12 +87,15 @@ export const createReview = (
   }).then((landlord) => {
 
     if (!landlord) {
+
       // Create a new landlord
+
       return createLandlord(landlord_first_name, landlord_last_name, organization)
         .then((result) => {
           landlordId = result._id;
 
           // Create property with landlordId just above
+          console.log("street_num", street_num);
           return createProperty(postal_code, street_name, street_num, landlordId)
             .then(newProperty => {
               propertyId = newProperty._id;
@@ -90,6 +122,7 @@ export const createReview = (
       landlordId = landlord._id;
 
       // Create property with landlordId just above
+      console.log("street_num", street_num);
       return createProperty(postal_code, street_name, street_num, landlordId)
         .then(newProperty => {
           propertyId = newProperty._id;
@@ -137,6 +170,7 @@ const createReviewWithUpdatedValues = function (
     userId: userId,
     landlordId: landlordId,
   });
+  console.log("attempting to create review");
   return review.save();
 };
 
