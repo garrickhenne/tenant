@@ -7,9 +7,7 @@ export const getPropertiesRequest = (req: Request, res: Response) => {
   if (typeof firstName === 'string' && typeof lastName === 'string') {
     getProperties(firstName, lastName)
       .then(properties => {
-        if (properties) {
-          res.json(properties);
-        }
+        res.json(properties);
       });
   }
 };

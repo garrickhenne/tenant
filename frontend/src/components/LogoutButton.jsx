@@ -1,18 +1,22 @@
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { authContext } from "../providers/AuthProvider";
 import { useContext } from 'react';
 import axios from 'axios';
 
 const LogoutButton = () => {
+  const navigate = useNavigate();
   const { user, logout } = useContext(authContext);
   const handleClick = () => {
     axios.get('/api/logout')
-      .then(() => logout())
+      .then(() => {
+        logout();
+        navigate('/');
+      })
       .catch((err) => console.log(err));
   };
 
   if (!user) {
-    <Navigate to='/' />;
+    navigate('/');
   }
 
   return(
