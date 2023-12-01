@@ -19,3 +19,19 @@ export const deleteLandlord = (landlordId: string): Promise<ILandlord | null> =>
 export const findLandlordByName = (firstName: string, lastName: string): Promise<ILandlord | null> => {
   return LandlordModel.findOne({ firstName: firstName, lastName: lastName });
 };
+
+
+
+export const updateLandlordById = async function (objectId: string, updatedData: any) {
+
+  try {
+    const updatedDocument = await LandlordModel.findByIdAndUpdate(objectId, updatedData, { new: true });
+
+    if (!updatedDocument) {
+      throw new Error('Document not found.');
+    }
+    return updatedDocument;
+  } catch (error) {
+    throw new Error('Error updating document.');
+  }
+};

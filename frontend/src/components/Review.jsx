@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+
 const Review = function(props) {
+
+  const navigate = useNavigate();
 
   const item = props.item;
 
@@ -9,9 +13,11 @@ const Review = function(props) {
   const respect = item.respect;
   const repair = item.repair;
 
+  const reviewId = item._id;
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // TODO Handle Edit Review
+    navigate(`/reviews/${reviewId}`);
   };
 
   return (

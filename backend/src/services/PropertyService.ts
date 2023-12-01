@@ -22,3 +22,30 @@ export const getProperties = (landLordFirstName: string, landLordLastName: strin
 export const getProperty = (postalCode: string, streetName: string, streetNum: number): Promise<IProperty | null> => {
   return Property.findOne({ postalCode, streetName, streetNumber: streetNum }).exec();
 };
+
+
+interface FormattedPropertyData {
+  postCode: string;
+  streetName: string;
+  streetNumber: number;
+}
+
+export const updatePropertyById = async function (objectId: string, updatedData: FormattedPropertyData) {
+
+  const formattedData = {
+    postalCode: updatedData.postCode,
+    streetName: updatedData.streetName,
+    streetNumber: updatedData.streetNumber,
+  };
+
+  try {
+    const updatedDocument = await Property.findByIdAndUpdate(objectId, formattedData, { new: true });
+
+    if (!updatedDocument) {
+      throw new Error('Document not found.');
+    }
+    return updatedDocument;
+  } catch (error) {
+    throw new Error('Error updating document.');
+  }
+};

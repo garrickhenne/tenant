@@ -2,15 +2,15 @@ import express, { Express, Request, Response, Application } from 'express';
 import { connectToMongoDB } from './db/connection';
 import dotenv from 'dotenv';
 import cookieSession from 'cookie-session';
-import { loginUser, signUpUser } from './controllers/UserController';
 import morgan from 'morgan';
 
 // Controllers
-import { createReviewRequest } from './controllers/ReviewController';
 import { getPropertiesRequest } from './controllers/PropertyController';
+import { loginUser, signUpUser } from './controllers/UserController';
 
 //Routes
 const dashboardRouter = require('./routes/dashboardRouter');
+const reviewRouter = require('./routes/reviewRouter');
 
 //For env File
 dotenv.config();
@@ -29,18 +29,14 @@ const port = process.env.PORT || 8000;
 
 // Mount the routers for specific URLS
 app.use('/api/dashboard', dashboardRouter);
-
-// TODO mount your other routers here! =D
-// app.use('/api/landlords', landLordRouter);
+app.use('/api/review', reviewRouter);
 // ...
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.post('/api/createReview', (req, res) => createReviewRequest(req, res));
 app.get('/api/getProperties', getPropertiesRequest);
-
 app.post('/api/login', (req, res) => loginUser(req, res));
 app.post('/api/signup', (req, res) => signUpUser(req, res));
 app.get('/api/logout', (req, res) => {
