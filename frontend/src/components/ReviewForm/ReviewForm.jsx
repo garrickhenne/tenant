@@ -13,7 +13,7 @@ const ReviewForm = () => {
 
   // Gets the reviewId params, if applicable.
   const params = useParams();
-  const isEdit = params.reviewId !== undefined ? true : false;
+  const isEdit = params.reviewId !== undefined;
 
   // Get the review details
   useEffect(() => {
