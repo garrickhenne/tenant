@@ -16,14 +16,16 @@ const NewReviewProvider = (props) => {
   //   - Repair Rating
   //   - Review Title
   //   - Review itself
-  
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [organization, setOrganization] = useState('');
+  const [landlordId, setLandlordId] = useState('');
 
   const [postCode, setPostCode] = useState('');
   const [streetNumber, setStreetNumber] = useState('');
   const [streetName, setStreetName] = useState('');
+  const [propertyId, setPropertyId] = useState('');
 
   const [healthSafetyRating, setHealthSafetyRating] = useState(3);
   const [repairRating, setRepairRating] = useState(3);
@@ -38,7 +40,9 @@ const NewReviewProvider = (props) => {
       lastName,
       setLastName,
       organization,
-      setOrganization
+      setOrganization,
+      landlordId,
+      setLandlordId
     },
     property: {
       postCode,
@@ -46,7 +50,9 @@ const NewReviewProvider = (props) => {
       streetNumber,
       setStreetNumber,
       streetName,
-      setStreetName
+      setStreetName,
+      propertyId,
+      setPropertyId
     },
     reviewRating: {
       healthSafetyRating,
@@ -62,9 +68,9 @@ const NewReviewProvider = (props) => {
     }
   };
 
-  return(
+  return (
     <newReviewContext.Provider value={value}>
-      { props.children }
+      {props.children}
     </newReviewContext.Provider>
   );
 };

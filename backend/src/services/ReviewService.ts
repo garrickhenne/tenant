@@ -5,8 +5,9 @@ import Review, { IReview } from '../model/Review';
 import { getCalculatedReviewScore } from './ServicesHelper';
 import { findByUserEmail, } from '../services/UserService';
 import { createLandlord, findLandlordByName } from '../services/LandlordService';
-import { createProperty, getProperty } from '../services/PropertyService';
+import { createProperty, getProperty, getProperties } from '../services/PropertyService';
 import { callGoogleSenti } from '../apis/google-natural-lang-api';
+import Property from '../model/Property';
 
 export const createReview = (
   email: string,
@@ -161,6 +162,80 @@ export const findReviewsByLandlordId = async(landlordId: string): Promise<IRevie
   return Review.find({ landlordId: landlordId }).exec();
 };
 
+export const findReviewDetailsById = async (reviewId: string) => {
+  try {
+    // more TS shenannigans to 'infer' that there is a first and last name coming from landlord...
+    const review = await Review.findById(reviewId).populate('landlordId').lean() as { landlordId: { firstName: string; lastName: string; }; };
+
+    if (review && review.landlordId) {
+      const { firstName, lastName } = review.landlordId;
+      const properties = await getProperties(firstName, lastName);
+
+      // may or may not be the correct business logic to fetch the first property however:
+      // 1: we only have the landlord object
+      // 2: the review has no information about the property
+      const property = properties[0];
+      return { review, property };
+    }
+  }
+  catch (error) {
+    console.log("error", error);
+    return {};
+  }
+};
+
+interface FormattedReviewData {
+  title: string;
+  review: string;
+  sentiment: number;
+  healthSafetyRating: number;
+  respectRating: number;
+  repairRating: number;
+  overallScore: number;
+}
+
+export const updateReviewById = async function (objectId: string, updatedData: FormattedReviewData) {
+
+  const formattedData = {
+    title: updatedData.title,
+    description: updatedData.review,
+    sentiment: 0,
+    healthSafety: updatedData.healthSafetyRating,
+    respect: updatedData.respectRating,
+    repair: updatedData.repairRating,
+    overallScore: 0
+  };
+
+  try {
+    // get new sentiment score
+    let sentimentScore = await callGoogleSenti(updatedData.review);
+    if (!sentimentScore) {
+      sentimentScore = 0;
+    }
+
+    //calculate the 'grand score'
+    const calculatedScore = getCalculatedReviewScore(
+      updatedData.healthSafetyRating,
+      updatedData.respectRating,
+      updatedData.repairRating,
+      sentimentScore
+    );
+
+    // Update the formatted data
+    formattedData.sentiment = sentimentScore;
+    formattedData.overallScore = calculatedScore;
+
+    const updatedDocument = await Review.findByIdAndUpdate(objectId, formattedData, { new: true });
+
+    if (!updatedDocument) {
+      throw new Error('Document not found.');
+    }
+    return updatedDocument;
+  } catch (error) {
+    throw new Error('Error updating document.');
+  }
+};
+
 // LOGIC
 // --STEP 1--
 // Going to be given:
@@ -201,3 +276,6 @@ export const findReviewsByLandlordId = async(landlordId: string): Promise<IRevie
 
 // --STEP 5--
 // Create + Return back the new review created / or boolean
+
+// --STEP 6--
+// Profit.
