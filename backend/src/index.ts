@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cookieSession from 'cookie-session';
 import { loginUser, signUpUser } from './controllers/UserController';
 import morgan from 'morgan';
+import { getReviewsWithLandlordId } from './controllers/LandlordController';
 
 //routes
 const dashboardRouter = require('./routes/dashboardRouter');
@@ -40,6 +41,7 @@ app.get('/api/logout', (req, res) => {
   req.session!.user = null;
   res.redirect('/');
 });
+app.get('/api/landlords', getReviewsWithLandlordId);
 
 app.listen(port, () => {
 
