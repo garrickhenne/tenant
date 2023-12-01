@@ -8,7 +8,7 @@ export const createLandlord = (firstName: string, lastName: string, organization
   return landlord.save();
 };
 
-export const findLandlordById = (landlordId: string): Promise<ILandlord | null> => {
+export const findLandlordById = async(landlordId: string): Promise<ILandlord | null> => {
   return LandlordModel.findById(landlordId).exec();
 };
 
