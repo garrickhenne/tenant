@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { authContext } from "../providers/AuthProvider";
 
 const SignupForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { login } = useContext(authContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +18,8 @@ const SignupForm = () => {
     axios.post('/api/signup', newUser)
       .then(response => {
         console.log(response.data);
+        login(response.data);
+        navigate('/');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -50,7 +56,7 @@ const SignupForm = () => {
           <input
             className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
             placeholder="Enter a password"
-            type="text"
+            type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -61,7 +67,7 @@ const SignupForm = () => {
           <input
             className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
             placeholder="Confirm your password"
-            type="text"
+            type="password"
             required
             value={confirmPassword}
             onChange={(e) => {
