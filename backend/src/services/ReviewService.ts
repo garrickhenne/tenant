@@ -157,6 +157,10 @@ const createReviewWithUpdatedValues = function (
   return review.save();
 };
 
+export const findReviewsByLandlordId = async(landlordId: string): Promise<IReview[] | null> => {
+  return Review.find({ landlordId: landlordId }).exec();
+};
+
 // LOGIC
 // --STEP 1--
 // Going to be given:
