@@ -3,6 +3,7 @@ import { connectToMongoDB } from './db/connection';
 import dotenv from 'dotenv';
 import cookieSession from 'cookie-session';
 import morgan from 'morgan';
+import { getReviewsWithLandlordId } from './controllers/LandlordController';
 
 // Controllers
 import { getPropertiesRequest } from './controllers/PropertyController';
@@ -43,6 +44,7 @@ app.get('/api/logout', (req, res) => {
   req.session!.user = null;
   res.redirect('/');
 });
+app.get('/api/landlords', getReviewsWithLandlordId);
 
 app.listen(port, () => {
 

@@ -158,49 +158,9 @@ const createReviewWithUpdatedValues = function (
   return review.save();
 };
 
-// LOGIC
-// --STEP 1--
-// Going to be given:
-//  user email, STRING
-//  landlord first and last name, STRING
-//  organization (optional), STRING
-//  postal code, STRING, need to format as 'XXX-XXX' format
-//  street num, NUMBER
-//  street name, STRING
-//  healthSafety, NUMBER, out of 5
-//  respect, NUMBER, out of 5,
-//  repair, NUMBER out of 5
-//  title, STRING
-//  desc, STRING
-// All strings need to be trimmed of spaces on 'both sides'
-
-// --STEP 2--
-// if the passed in landlord first and last name doesn't return an exact match (Ignore Organization):
-//   we have to create a landlord, return object id of the new landlord
-// else
-//   we fetch the object id of the landlord
-
-// if the passed in postal code / street # / street name doesn't return an exact match:
-//   we have to create a new property, using the landlord id from above
-// else
-//   we have an existing property, but that means we have an existing landlord...
-//  Check if the existing property landlord id matches the id from above.
-//      if it matches
-//         proceed with creating the submission with the property id and landlord id from the property.
-//      if it doesn't match
-//         we have to create a new property, using the landlord id from above. Proceed to create the review with the new propertyid and landlord id.
-
-// --STEP 3--
-// Make API call to GNL to fetch the sentiment of the description.
-
-// --STEP 4--
-// calculate overall score, using helper method (based off of %?  A rating out of 10? 100? TBD).
-
-// --STEP 5--
-// Create + Return back the new review created / or boolean
-
-// --STEP 6--
-// Profit.
+export const findReviewsByLandlordId = async(landlordId: string): Promise<IReview[] | null> => {
+  return Review.find({ landlordId: landlordId }).exec();
+};
 
 export const findReviewDetailsById = async (reviewId: string) => {
   try {
@@ -275,3 +235,47 @@ export const updateReviewById = async function (objectId: string, updatedData: F
     throw new Error('Error updating document.');
   }
 };
+
+// LOGIC
+// --STEP 1--
+// Going to be given:
+//  user email, STRING
+//  landlord first and last name, STRING
+//  organization (optional), STRING
+//  postal code, STRING, need to format as 'XXX-XXX' format
+//  street num, NUMBER
+//  street name, STRING
+//  healthSafety, NUMBER, out of 5
+//  respect, NUMBER, out of 5,
+//  repair, NUMBER out of 5
+//  title, STRING
+//  desc, STRING
+// All strings need to be trimmed of spaces on 'both sides'
+
+// --STEP 2--
+// if the passed in landlord first and last name doesn't return an exact match (Ignore Organization):
+//   we have to create a landlord, return object id of the new landlord
+// else
+//   we fetch the object id of the landlord
+
+// if the passed in postal code / street # / street name doesn't return an exact match:
+//   we have to create a new property, using the landlord id from above
+// else
+//   we have an existing property, but that means we have an existing landlord...
+//  Check if the existing property landlord id matches the id from above.
+//      if it matches
+//         proceed with creating the submission with the property id and landlord id from the property.
+//      if it doesn't match
+//         we have to create a new property, using the landlord id from above. Proceed to create the review with the new propertyid and landlord id.
+
+// --STEP 3--
+// Make API call to GNL to fetch the sentiment of the description.
+
+// --STEP 4--
+// calculate overall score, using helper method (based off of %?  A rating out of 10? 100? TBD).
+
+// --STEP 5--
+// Create + Return back the new review created / or boolean
+
+// --STEP 6--
+// Profit.
