@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import reactLogo from '../assets/react.svg';
 import viteLogo from '/vite.svg';
 import '../App.css';
+import { authContext } from '../providers/AuthProvider';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
+  const { user } = useContext(authContext);
   const [count, setCount] = useState(0);
   return (
     <>
@@ -31,6 +34,9 @@ const Home = () => {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      { user && <Link to='/reviews/new' >
+        <button>Create a new Review</button>
+      </Link> }
     </>
   );
 };

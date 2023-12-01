@@ -6,7 +6,11 @@ import { loginUser, signUpUser } from './controllers/UserController';
 import morgan from 'morgan';
 import { getReviewsWithLandlordId } from './controllers/LandlordController';
 
-//routes
+// Controllers
+import { createReviewRequest } from './controllers/ReviewController';
+import { getPropertiesRequest } from './controllers/PropertyController';
+
+//Routes
 const dashboardRouter = require('./routes/dashboardRouter');
 
 //For env File
@@ -34,6 +38,9 @@ app.use('/api/dashboard', dashboardRouter);
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
+
+app.post('/api/createReview', (req, res) => createReviewRequest(req, res));
+app.get('/api/getProperties', getPropertiesRequest);
 
 app.post('/api/login', (req, res) => loginUser(req, res));
 app.post('/api/signup', (req, res) => signUpUser(req, res));
