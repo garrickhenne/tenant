@@ -33,7 +33,7 @@ const UserDashboard = () => {
         Dashboard for {user}
       </h1>
       <div >
-        <ul className='space-y-4'>
+        <ul className='m-8 grid grid-cols-2'>
           {/* Go through each review and assign render a Review Component */}
           {dashboard.map(item => {
             console.log(item);
