@@ -29,8 +29,8 @@ export const searchLandlordsByFullName = async(name: string) => {
   
   const promises = landlords.map((landlord) => {
     return getPropertyByLandlordId(landlord._id)
-      .then(reviews => {
-        return { landlord, reviews };
+      .then(properties => {
+        return { landlord, properties };
       });
   });
 
