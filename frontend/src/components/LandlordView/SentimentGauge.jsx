@@ -18,7 +18,6 @@ const SentimentGauge = ({ value }) => {
   // Translate a value from [-1, 1] into a value from [64, 384]
   const valueToWidth = translateValue(value);
   const gaugeMeter = useTransform(x, [64, 384], ['#D43434', '#37D434']);
-  console.log(gaugeMeter.get());
 
   useEffect(() => {
     setHasStarted(true);
