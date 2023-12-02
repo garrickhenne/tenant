@@ -5,15 +5,18 @@ import { useEffect, useState } from "react";
 const Gauge = ({
   value=1,
   fill='#4834d4',
-  label
+  label,
+  isOverall=false
 }) => {
   const [isShown, setIsShown] = useState(false);
+  const width = isOverall ? '20em' : '16em';
+  const height = isOverall ? '20em' : '16em';
 
   useEffect(() => {
     setIsShown(true);
   }, []);
   
-  const strokeWidth = 0.15;
+  const strokeWidth = isOverall ? 0.25 : 0.15;
   const valueToPercent = value / 5 * 100;
 
   const radius = 0.85;
@@ -43,8 +46,8 @@ const Gauge = ({
     <div className="flex items-center justify-center">
       <svg
         viewBox={[-1, -0.5, 2, 1].join(' ')}
-        width='16em'
-        height='16em'
+        width={width}
+        height={height}
         style={{
           transform: "rotate(-90deg)",
           strokeLinecap: 'round'
