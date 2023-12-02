@@ -26,7 +26,7 @@ const Gauge = ({
   );
 
   const transition = {
-    duration: 0.5,
+    duration: 1,
     ease: "easeOut",
     delay: 0.2
   };

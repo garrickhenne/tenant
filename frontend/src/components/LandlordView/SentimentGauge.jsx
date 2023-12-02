@@ -12,7 +12,6 @@ const translateValue = (value) => {
 
 // Value is a number between [-1, 1].
 const SentimentGauge = ({ value }) => {
-  value=0.9;
   const [hasStarted, setHasStarted] = useState(false);
   const x = useMotionValue(64);
   
@@ -34,16 +33,12 @@ const SentimentGauge = ({ value }) => {
           className="h-14 rounded-full absolute"
           animate={{
             width: hasStarted ? valueToWidth : 64,
-            background: gaugeMeter.get()
           }}
-          onUpdate={
-            (latest) => {
-              x.set(latest.width);
-              console.log(latest);
-              console.log(x.get());
-            }
-          }
-          transition={{ duration: 1.5 }}
+          style={{
+            backgroundColor: gaugeMeter,
+          }}
+          onUpdate={ (latest) => x.set(latest.width) }
+          transition={{ duration: 1 }}
         />
       </div>
     </div>
