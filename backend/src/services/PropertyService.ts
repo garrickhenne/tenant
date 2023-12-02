@@ -23,6 +23,10 @@ export const getProperty = (postalCode: string, streetName: string, streetNum: n
   return Property.findOne({ postalCode, streetName, streetNumber: streetNum }).exec();
 };
 
+export const getPropertyByLandlordId = (id: string) => {
+  return Property.find({ landlordId: id }).exec();
+};
+
 
 interface FormattedPropertyData {
   postCode: string;
@@ -30,7 +34,7 @@ interface FormattedPropertyData {
   streetNumber: number;
 }
 
-export const updatePropertyById = async function (objectId: string, updatedData: FormattedPropertyData) {
+export const updatePropertyById = async function(objectId: string, updatedData: FormattedPropertyData) {
 
   const formattedData = {
     postalCode: updatedData.postCode,
