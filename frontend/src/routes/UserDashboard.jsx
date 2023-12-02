@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import axios from 'axios';
-import Review from "../components/Review";
-import Test from '../components/Review/test';
+import Review from "../components/Review/Review";
 import { authContext } from "../providers/AuthProvider";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -50,7 +49,7 @@ const UserDashboard = () => {
             animate="visible"
             transition={{ duration: 0.3, delay: index * 0.2 }}
           >
-            <Test key={item._id} item={item} />
+            <Review key={item._id} item={item} />
           </motion.li>);
         })}
       </ul>
