@@ -22,7 +22,7 @@ const Gauge = ({
   const radius = 0.85;
   const circumference = Math.ceil(2 * Math.PI * radius);
   const fillPercents = Math.abs(
-    Math.ceil((circumference / 100) * (valueToPercent - 100))
+    (circumference / 100) * (valueToPercent - 100)
   );
 
   const transition = {
