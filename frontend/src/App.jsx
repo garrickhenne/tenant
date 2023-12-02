@@ -10,6 +10,7 @@ import Home from './routes/Home';
 import UserDashboard from './routes/UserDashboard';
 import Login from './routes/Login';
 import NewReview from './routes/NewReview';
+import Landlord from './routes/Landlord';
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/reviews/new' element={<NewReview />} />
         <Route path='/reviews/:reviewId' element={<NewReview />} />
+        <Route path='/landlords/:landlordId' element={<Landlord />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
