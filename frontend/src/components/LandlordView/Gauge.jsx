@@ -17,7 +17,7 @@ const Gauge = ({
   }, []);
   
   const strokeWidth = isOverall ? 0.25 : 0.15;
-  const valueToPercent = value / 5 * 100;
+  const valueToPercent = isOverall ? value * 100 : value / 5 * 100;
 
   const radius = 0.85;
   const circumference = Math.ceil(2 * Math.PI * radius);
@@ -81,7 +81,10 @@ const Gauge = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
-        >{value.toFixed(1)}/5</motion.p>
+        >
+          {isOverall && `${(value * 100).toFixed(1)}%`}
+          {!isOverall && `${value.toFixed(1)}/5`}
+        </motion.p>
       </div>
     </div>
   );
