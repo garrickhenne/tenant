@@ -34,7 +34,7 @@ export const getLandlordByName = async(request: Request, response: Response) => 
   try {
     const landlords = await searchLandlordsByFullName(name);
 
-    return response.json({ landlords });
+    return response.json(landlords);
   } catch (error) {
     // We encountered db error, respond with an empty array.
     return response.status(500).json([]);
