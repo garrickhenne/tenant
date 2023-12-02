@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-
+import Test from './Review/test';
 const Review = function(props) {
 
   const navigate = useNavigate();
@@ -15,6 +15,8 @@ const Review = function(props) {
 
   const reviewId = item._id;
 
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     navigate(`/reviews/${reviewId}`);
@@ -22,33 +24,37 @@ const Review = function(props) {
 
   return (
 
-    // <li>
-
-
-    <li
-      className="h-40em mx-5 my-5 whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-black p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+    <div
+      className="h-50em mx-5 my-5 whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-black p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
     >
-      <div className="mb-2 flex items-center gap-3">
-        <div
-          className="center relative inline-block select-none whitespace-nowrap rounded-full bg-purple-500 py-1 px-2 align-baseline font-sans text-xs font-medium capitalize leading-none tracking-wide text-white"
-
+      <div className="flex flex-col mb-2" >
+        <div className="mb-2 flex justify-between items-center gap-3">
+          <div
+            className="center relative inline-block select-none whitespace-nowrap rounded-full bg-orange-600 py-1 px-2 align-baseline font-sans text-xs font-medium capitalize leading-none tracking-wide text-white"
+          >
+            <div className="mt-px">{reviewTitle}</div>
+          </div>
+          <div>
+            <form onSubmit={(event) => handleSubmit(event)}>
+              <button className='border border-white' type="submit">Edit</button>
+            </form>
+          </div>
+        </div>
+        <span
+          className="text-left inline-block whitespace-nowrap rounded-full bg-gray-700 py-1 px-2 align-baseline font-default text-xs font-medium capitalize leading-none tracking-wide text-white"
         >
-          <div className="mt-px">{reviewTitle}</div>
-        </div>
-        <div>
-          <form onSubmit={(event) => handleSubmit(event)}>
-            <button className='border border-white' type="submit">Edit</button>
-          </form>
-        </div>
+          <p className="mt-px">Last, First name</p>
+        </span>
       </div>
-      <p className="block font-sans text-sm font-normal leading-normal text-white-700 antialiased">
+
+      <p className="block font-default text-sm font-normal leading-normal text-white-700 antialiased text-left">
         {reviewDesc}
       </p>
       <div className="mt-4 flex items-center gap-5">
         <div className="flex items-center gap-1">
           <span className="h-3 w-3 rounded-full bg-blue-400"></span>
           <p className="block font-sans text-xs font-normal text-white-700 antialiased">
-            Health & Safety: {healthSafety} / 5
+            Health & Safety: {healthSafety}/5
           </p>
         </div>
         <div className="flex items-center gap-1">
@@ -66,7 +72,7 @@ const Review = function(props) {
             ></path>
           </svg>
           <p className="block font-sans text-xs font-normal text-white-700 antialiased">
-            Respect: {respect} / 5
+            Respect: {respect}/5
           </p>
         </div>
         <div className="flex items-center gap-1">
@@ -84,7 +90,7 @@ const Review = function(props) {
             ></path>
           </svg>
           <p className="block font-sans text-xs font-normal text-white-700 antialiased">
-            Repair: {repair} / 5
+            Repair: {repair}/5
           </p>
         </div>
         <div className="flex items-center gap-1">
@@ -106,8 +112,8 @@ const Review = function(props) {
           </p>
         </div>
       </div>
-    </li>
-    // </li>
+    </div>
+
   );
 };
 

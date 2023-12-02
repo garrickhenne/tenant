@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import Review from "../components/Review";
+import Test from '../components/Review/test';
 import { authContext } from "../providers/AuthProvider";
 import { Navigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const UserDashboard = () => {
   const { user } = useContext(authContext);
@@ -26,21 +28,32 @@ const UserDashboard = () => {
     return <Navigate to='/' />;
   }
 
+  const itemAnimProp = {
+    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -50 },
+  };
+
   return (
     <div>
       {/* Tailwind */}
       <h1 className='text-3xl font-bold underline'>
         Dashboard for {user}
       </h1>
-      <div >
-        <ul className='m-8 grid grid-cols-2'>
-          {/* Go through each review and assign render a Review Component */}
-          {dashboard.map(item => {
-            console.log(item);
-            return <Review key={item._id} item={item} />;
-          })}
-        </ul>
-      </div>
+      <ul className='m-8 grid grid-cols-2'>
+
+        {/* Go through each review and assign render a Review Component */}
+        {dashboard.map((item, index) => {
+          return (<motion.li
+            className="m-10"
+            variants={itemAnimProp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.3, delay: index * 0.2 }}
+          >
+            <Test key={item._id} item={item} />
+          </motion.li>);
+        })}
+      </ul>
     </div>
   );
 };
