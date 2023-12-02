@@ -2,6 +2,7 @@
 // then create a new model (taken from model folder), save the user and return it.
 import { HydratedDocument } from 'mongoose';
 import LandlordModel, { ILandlord } from '../model/Landlord';
+import { getPropertyByLandlordId } from './PropertyService';
 
 export const createLandlord = (firstName: string, lastName: string, organization?: string): Promise<ILandlord> => {
   const landlord: HydratedDocument<ILandlord> = new LandlordModel({ firstName, lastName, organization });
@@ -20,9 +21,23 @@ export const findLandlordByName = (firstName: string, lastName: string): Promise
   return LandlordModel.findOne({ firstName: firstName, lastName: lastName });
 };
 
+export const searchLandlordsByFullName = async(name: string) => {
+  const nameRegex = new RegExp(name);
+  const landlords = await LandlordModel.find({
+    $or: [{ firstName: nameRegex }, { lastName: nameRegex }]
+  }).exec();
+  
+  const promises = landlords.map((landlord) => {
+    return getPropertyByLandlordId(landlord._id)
+      .then(properties => {
+        return { landlord, properties };
+      });
+  });
 
+  return Promise.all(promises);
+};
 
-export const updateLandlordById = async function (objectId: string, updatedData: any) {
+export const updateLandlordById = async function(objectId: string, updatedData: any) {
 
   try {
     const updatedDocument = await LandlordModel.findByIdAndUpdate(objectId, updatedData, { new: true });
