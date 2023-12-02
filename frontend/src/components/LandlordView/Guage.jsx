@@ -1,50 +1,85 @@
-import { arc } from "d3-shape";
-import { useMotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from "react";
 
 const Gauge = ({
   value=1,
   fill='#4834d4',
   label
 }) => {
+  const [isShown, setIsShown] = useState(false);
+
+  useEffect(() => {
+    setIsShown(true);
+  }, []);
+  
   // Value is the avg rating in range [0, 5].
+  const strokeWidth = 0.2;
+  const valueToPercent = value / 5 * 100;
 
-  const valueToPercent = value / 5;
+  const radius = 1;
+  const circumference = Math.ceil(2 * Math.PI * radius);
+  const fillPercents = Math.abs(
+    Math.ceil((circumference / 100) * (valueToPercent - 100))
+  );
 
-  const backgroundArc = arc()
-    .innerRadius(0.81)
-    .outerRadius(0.999)
-    .startAngle(-Math.PI)
-    .endAngle(Math.PI)
-    .cornerRadius(1)();
+  const transition = {
+    duration: 0.5,
+    ease: "easeOut",
+    delay: 0.2
+  };
 
-  const filledArc = arc()
-    .innerRadius(0.80)
-    .outerRadius(1)
-    .startAngle(0)
-    .endAngle(2 * Math.PI * (valueToPercent))
-    .cornerRadius(0.2)();
+  const variant = {
+    hidden: {
+      strokeDashoffset: circumference,
+      transition
+    },
+    show: {
+      strokeDashoffset: fillPercents,
+      transition
+    }
+  };
   
   return (
     <div className="flex items-center justify-center">
       <svg
-        width="15em"
+        viewBox={[-1, -0.5, 2, 1].join(' ')}
+        width='15em'
         height='16em'
-        viewBox={[
-          -1, -0.5,
-          2, 1,
-        ].join(" ")}>
-        <path
-          d={backgroundArc}
-          fill="#dbdbe70F"
+        style={{
+          transform: "rotate(-90deg)",
+          overflow: 'visible',
+          strokeLinecap: 'round'
+        }}
+      >
+        <circle
+          cx="0"
+          cy="0"
+          r={radius}
+          strokeWidth={strokeWidth}
+          stroke='#dbdbe70f'
+          fill="transparent"
         />
-        <path
-          d={filledArc}
-          fill={fill}
+        <motion.circle
+          cx={0}
+          cy={0}
+          r={radius}
+          strokeWidth={strokeWidth}
+          stroke={fill}
+          fill='transparent'
+          strokeDashoffset={fillPercents}
+          strokeDasharray={circumference}
+          variants={variant}
+          initial='hidden'
+          animate={isShown ? 'show' : 'hidden'}
         />
       </svg>
       <div className="absolute font-bold">
         <p className="text-4xl">{label}</p>
-        <p className="text-4xl">{value.toFixed(1)}/5</p>
+        <motion.p className="text-4xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >{value.toFixed(1)}/5</motion.p>
       </div>
     </div>
   );
