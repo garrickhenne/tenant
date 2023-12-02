@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from "react";
 
+// Value is the avg rating in range [0, 5].
 const Gauge = ({
   value=1,
   fill='#4834d4',
@@ -12,11 +13,10 @@ const Gauge = ({
     setIsShown(true);
   }, []);
   
-  // Value is the avg rating in range [0, 5].
-  const strokeWidth = 0.2;
+  const strokeWidth = 0.15;
   const valueToPercent = value / 5 * 100;
 
-  const radius = 1;
+  const radius = 0.85;
   const circumference = Math.ceil(2 * Math.PI * radius);
   const fillPercents = Math.abs(
     Math.ceil((circumference / 100) * (valueToPercent - 100))
@@ -43,25 +43,24 @@ const Gauge = ({
     <div className="flex items-center justify-center">
       <svg
         viewBox={[-1, -0.5, 2, 1].join(' ')}
-        width='15em'
+        width='16em'
         height='16em'
         style={{
           transform: "rotate(-90deg)",
-          overflow: 'visible',
           strokeLinecap: 'round'
         }}
       >
         <circle
-          cx="0"
-          cy="0"
+          cx='0'
+          cy='0'
           r={radius}
           strokeWidth={strokeWidth}
           stroke='#dbdbe70f'
           fill="transparent"
         />
         <motion.circle
-          cx={0}
-          cy={0}
+          cx='0'
+          cy='0'
           r={radius}
           strokeWidth={strokeWidth}
           stroke={fill}
