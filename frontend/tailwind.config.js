@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      minHeight: {
+        '76vh': '76vh'
+      }
+    },
   },
   plugins: [
     require('tailwind-scrollbar')({ nocompatible: true })
