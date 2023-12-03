@@ -27,6 +27,10 @@ export const getPropertyByLandlordId = (id: string) => {
   return Property.find({ landlordId: id }).exec();
 };
 
+export const getLandlordsFromPostalCode = (postalCode: string) => {
+  const postalCodeRegex = new RegExp(postalCode, 'i');
+  return Property.find({ postalCode: postalCodeRegex }).populate('landlordId').exec();
+};
 
 interface FormattedPropertyData {
   postCode: string;
