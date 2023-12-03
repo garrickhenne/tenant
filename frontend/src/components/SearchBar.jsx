@@ -13,7 +13,6 @@ export const SearchBar = () => {
   const fetchSearchResults = (e) => {
     const newSearchQuery = e.target.value;
     setSearchQuery(newSearchQuery);
-    console.log(results);
   };
 
   const searchLandlord = (name) => {
