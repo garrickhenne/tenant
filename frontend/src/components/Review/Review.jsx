@@ -22,7 +22,7 @@ import {
 // SVG icons from:
 // https://reactsvgicons.com/search?q=edit&page=1
 
-const Test = function(props) {
+const Review = function(props) {
 
   const navigate = useNavigate();
 
@@ -113,4 +113,4 @@ const Test = function(props) {
   );
 };
 
-export default Test;
+export default Review;
