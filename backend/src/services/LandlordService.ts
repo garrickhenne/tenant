@@ -21,8 +21,8 @@ export const findLandlordByName = (firstName: string, lastName: string): Promise
   return LandlordModel.findOne({ firstName: firstName, lastName: lastName });
 };
 
-export const searchLandlordsByFullName = async(name: string) => {
-  const nameRegex = new RegExp(name);
+export const queryLandlordsByFullName = async(name: string) => {
+  const nameRegex = new RegExp(name, 'i');
   const landlords = await LandlordModel.find({
     $or: [{ firstName: nameRegex }, { lastName: nameRegex }]
   }).exec();

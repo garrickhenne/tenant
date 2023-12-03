@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'default': ['Jost', 'Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif']
+      },
       minHeight: {
         '76vh': '76vh'
       }
@@ -14,5 +17,5 @@ export default {
   plugins: [
     require('tailwind-scrollbar')({ nocompatible: true })
   ],
-}
+};
 
