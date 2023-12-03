@@ -1,12 +1,9 @@
-import Score from './Score';
-import { useNavigate } from 'react-router-dom';
-import HealthIcon from './icons/Health';
-import RespectIcon from './icons/Respect';
-import RepairIcon from './icons/Repair';
-import SentimentIcon from './icons/Sentiment';
-import OverallScoreIcon from './icons/OverallScore';
-import EditIcon from './icons/Edit';
-import { motion } from "framer-motion";
+import Score from '../Review/Score';
+import HealthIcon from '../Review/icons/Health';
+import RespectIcon from '../Review/icons/Respect';
+import RepairIcon from '../Review/icons/Repair';
+import SentimentIcon from '../Review/icons/Sentiment';
+import OverallScoreIcon from '../Review/icons/OverallScore';
 import {
   getSentimentText,
   getSentimentPercentage,
@@ -14,19 +11,9 @@ import {
   getOverallDisplayScore,
   getPercentage,
   getOverallScorePercentage
-} from '../../ComponentHelper';
+} from '../../helpers/ComponentHelper';
 
-// Tailwind Component from:
-// https://tailwindcomponents.com/component/area-liveability-score
-
-// SVG icons from:
-// https://reactsvgicons.com/search?q=edit&page=1
-
-const Review = function(props) {
-
-  const navigate = useNavigate();
-
-  const item = props.item;
+const LandlordReview = function({ item }) {
 
   const reviewTitle = item.title;
   const reviewDesc = item.description;
@@ -35,37 +22,15 @@ const Review = function(props) {
   const respect = item.respect;
   const repair = item.repair;
   const overallScore = item.overallScore;
-  const landlord = item.landlordId;
-
-  const reviewId = item._id;
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    navigate(`/reviews/${reviewId}`);
-  };
 
   return (
     <section
-      className="w-full h-full p-6 rounded-lg max-w-2xl shadow-lg shadow-gray-500 bg-white"
+      className={`w-full p-6 border-2 border-white rounded-lg max-w-2xl shadow-lg bg-white basis-[45%] bg-transparent`}
     >
       <header className="flex justify-between items-center mb-1">
-
         {/* Title Review + Edit Button */}
-        <h3 className="font-medium text-lg">"{reviewTitle}"</h3>
-        <motion.button
-          whileHover={{
-            scale: 1.5,
-            transition: { duration: 0.25 },
-          }}
-          style={{ 'all': 'unset' }}
-        >
-          <EditIcon onClick={handleSubmit}></EditIcon>
-        </motion.button>
-
+        <h3 className="font-medium text-lg">&ldquo;{reviewTitle}&rdquo;</h3>
       </header>
-
-      {/* Landlord Name */}
-      <h3 className="font-bold text-lg mb-2">{landlord.lastName}, {landlord.firstName}</h3>
 
       {/* Review */}
       <p className="text-left whitespace-normal italic">
@@ -101,6 +66,7 @@ const Review = function(props) {
       </section>
 
       {/* Overall Score */}
+      {console.log(overallScore)}
       <footer className="border-t border-gray-100 pt-4">
         <Score
           icon={OverallScoreIcon}
@@ -113,4 +79,4 @@ const Review = function(props) {
   );
 };
 
-export default Review;
+export default LandlordReview;
