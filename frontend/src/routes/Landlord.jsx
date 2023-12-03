@@ -41,7 +41,7 @@ const Landlord = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}
     >
-      <h1 className="self-start ml-14">{ landlordData.landlord.firstName } { landlordData.landlord.lastName }</h1>
+      <h1 className="self-start ml-14 text-white">{ landlordData.landlord.firstName } { landlordData.landlord.lastName }</h1>
       <section className="flex flex-row gap-x-28 items-center">
         {averageRatings && <Gauge label={'Overall'} value={averageRatings.overall} fill="#C0D434" isOverall />}
         {averageRatings && <SentimentGauge value={averageRatings.sentiment} />}
@@ -51,7 +51,7 @@ const Landlord = () => {
         {averageRatings && <Gauge label={'Respect'} value={averageRatings.respect}/>}
         {averageRatings && <Gauge label={'Safety'} value={averageRatings.safety}/>}
       </section>
-      <h1 className="self-start ml-14">Reviews</h1>
+      <h1 className="self-start ml-14 text-white">Reviews</h1>
       <section>
         {landlordData.reviews && <ReviewsList reviews={landlordData.reviews} />}
       </section>

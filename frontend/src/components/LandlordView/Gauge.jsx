@@ -76,11 +76,15 @@ const Gauge = ({
         />
       </svg>
       <div className="absolute font-bold">
-        <p className="text-4xl">{label}</p>
-        <motion.p className="text-4xl"
+        <p className="text-4xl text-white">{label}</p>
+        <motion.p
+          className="text-4xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
+          style={{
+            color: 'white'
+          }}
         >
           {isOverall && `${(value * 100).toFixed(1)}%`}
           {!isOverall && `${value.toFixed(1)}/5`}

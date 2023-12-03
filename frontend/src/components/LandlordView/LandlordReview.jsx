@@ -13,7 +13,7 @@ import {
   getOverallScorePercentage
 } from '../../helpers/ComponentHelper';
 
-const Review = function({ item, isLandlordView }) {
+const LandlordReview = function({ item }) {
 
   const reviewTitle = item.title;
   const reviewDesc = item.description;
@@ -25,7 +25,7 @@ const Review = function({ item, isLandlordView }) {
 
   return (
     <section
-      className={`w-full p-6 border-2 border-white rounded-lg max-w-2xl shadow-md shadow-gray-500 basis-[45%] bg-transparent`}
+      className={`w-full p-6 border-2 border-white rounded-lg max-w-2xl shadow-lg bg-white basis-[45%] bg-transparent`}
     >
       <header className="flex justify-between items-center mb-1">
         {/* Title Review + Edit Button */}
@@ -66,6 +66,7 @@ const Review = function({ item, isLandlordView }) {
       </section>
 
       {/* Overall Score */}
+      {console.log(overallScore)}
       <footer className="border-t border-gray-100 pt-4">
         <Score
           icon={OverallScoreIcon}
@@ -78,4 +79,4 @@ const Review = function({ item, isLandlordView }) {
   );
 };
 
-export default Review;
+export default LandlordReview;

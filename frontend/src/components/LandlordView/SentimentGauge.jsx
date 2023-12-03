@@ -17,7 +17,7 @@ const SentimentGauge = ({ value }) => {
   
   // Translate a value from [-1, 1] into a value from [64, 384]
   const valueToWidth = translateValue(value);
-  const gaugeMeter = useTransform(x, [64, 384], ['#D43434', '#37D434']);
+  const gaugeMeter = useTransform(x, [64, 384], ['#C70000', '#1BC700']);
 
   useEffect(() => {
     setHasStarted(true);
@@ -25,7 +25,7 @@ const SentimentGauge = ({ value }) => {
 
   return (
     <div>
-      <h1 className="text-start font-semibold">Sentiment</h1>
+      <h1 className="text-start font-semibold text-white w-96">Sentiment</h1>
       <div id="sentiment-meter">
         <div className="w-96 h-14 bg-white opacity-5 rounded-full absolute" />
         <motion.div

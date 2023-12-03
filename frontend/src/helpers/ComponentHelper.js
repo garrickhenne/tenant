@@ -32,7 +32,7 @@ const getDisplayScore = (num) => {
 };
 
 const getOverallDisplayScore = (num) => {
-  return `${num * 100}/${OVERALL_MAX_SCORE}`;
+  return `${(num * 100).toFixed()}/${OVERALL_MAX_SCORE}`;
 };
 
 const getPercentage = (num) => {
