@@ -2,7 +2,7 @@ const EditIcon = function(props) {
 
   return (
     <span
-      class="w-8 h-8 shrink-0 mr-4 rounded-full bg-blue-50 flex items-center justify-center"
+      class="w-8 h-8 shrink-0 mr-4 rounded-full bg-blue-50 flex items-center justify-center cursor-pointer"
       onClick={props.onClick}
     >
       <svg

@@ -6,6 +6,7 @@ import RepairIcon from './icons/Repair';
 import SentimentIcon from './icons/Sentiment';
 import OverallScoreIcon from './icons/OverallScore';
 import EditIcon from './icons/Edit';
+import { motion } from "framer-motion";
 import {
   getSentimentText,
   getSentimentPercentage,
@@ -51,7 +52,15 @@ const Test = function(props) {
 
         {/* Title Review + Edit Button */}
         <h3 className="font-medium text-lg">"{reviewTitle}"</h3>
-        <EditIcon onClick={handleSubmit}></EditIcon>
+        <motion.button
+          whileHover={{
+            scale: 1.5,
+            transition: { duration: 0.25 },
+          }}
+          style={{ 'all': 'unset' }}
+        >
+          <EditIcon onClick={handleSubmit}></EditIcon>
+        </motion.button>
 
       </header>
 
