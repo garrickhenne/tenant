@@ -15,6 +15,12 @@ import {
   getOverallScorePercentage
 } from '../../ComponentHelper';
 
+// Tailwind Component from:
+// https://tailwindcomponents.com/component/area-liveability-score
+
+// SVG icons from:
+// https://reactsvgicons.com/search?q=edit&page=1
+
 const Test = function(props) {
 
   const navigate = useNavigate();
@@ -39,7 +45,7 @@ const Test = function(props) {
 
   return (
     <section
-      className="w-full p-6 rounded-lg max-w-2xl shadow-lg shadow-gray-500 bg-white"
+      className="w-full h-full p-6 rounded-lg max-w-2xl shadow-lg shadow-gray-500 bg-white"
     >
       <header className="flex justify-between items-center mb-1">
 
@@ -50,10 +56,10 @@ const Test = function(props) {
       </header>
 
       {/* Landlord Name */}
-      <h3 className="font-medium text-lg mb-2">{landlord.lastName}, {landlord.firstName}</h3>
+      <h3 className="font-bold text-lg mb-2">{landlord.lastName}, {landlord.firstName}</h3>
 
       {/* Review */}
-      <p className="text-left whitespace-normal ">
+      <p className="text-left whitespace-normal italic">
         {reviewDesc}
       </p>
 

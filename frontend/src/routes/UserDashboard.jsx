@@ -35,10 +35,11 @@ const UserDashboard = () => {
   return (
     <div>
       {/* Tailwind */}
-      <h1 className='text-3xl font-bold underline'>
+      <h1 className=
+        'font-small font-default font-bold text-3xl cursor-default text-red-200'>
         Dashboard for {user}
       </h1>
-      <ul className='m-8 grid grid-cols-2'>
+      <ul className='m-0 grid grid-cols-2'>
 
         {/* Go through each review and assign render a Review Component */}
         {dashboard.map((item, index) => {
