@@ -9,7 +9,7 @@ class DashboardService {
       const user = await User.findOne({ email: userEmail }).exec();
 
       if (user) {
-        return await Review.find({ userId: user._id }).exec();
+        return await Review.find({ userId: user._id }).populate('landlordId').exec();
       }
 
       // no reviews, return empty object
