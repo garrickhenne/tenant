@@ -7,7 +7,7 @@ const NavButton = ({ name, path }) => {
     <Link
       to={path}
     >
-      <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white shadow-xl">
+      <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white shadow-xl focus:outline-none">
         {name}
       </button>
     </Link>
