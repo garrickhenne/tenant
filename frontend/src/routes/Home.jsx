@@ -10,11 +10,11 @@ const Home = () => {
         >
           share past living experiences
         </h2>
-        <h2 className='text-xl pb-5 text-slate-200'>
+        <h2 className='text-xl pb-12 text-slate-200'>
           Choose a filter to search for landlord reviews.
         </h2>
       </header>
-      <body className='min-h-76vh flex flex-col'>
+      <div className='min-h-76vh flex flex-col'>
         <SearchBar className="flex-1 flex-shrink-0"/>
         <footer
           className="w-full h-[4.5%] text-white space-x-2 p-10 mt-auto"
@@ -24,7 +24,7 @@ const Home = () => {
           <a className="hover:underline" href="https://github.com/dantan380">@dantan380</a>
           <a className="hover:underline" href="https://github.com/robertshum">@robertshum</a>
         </footer>
-      </body>
+      </div>
     </div>
   );
 };
