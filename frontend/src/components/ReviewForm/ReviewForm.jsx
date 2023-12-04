@@ -6,6 +6,8 @@ import RatingsReviewSection from "./RatingsReviewSection";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import RatingsSection from "./RatingsSection";
 
 const ReviewForm = () => {
   const navigate = useNavigate();
@@ -133,12 +135,19 @@ const ReviewForm = () => {
   return (
     <>
       <main className="flex justify-center gap-y-7 flex-col items-center">
-        <h1 className="text-left font-bold text-4xl min-w-[75%]">
+        <h1 className="self-start font-bold text-4xl  text-white">
           {isEdit ? 'Edit' : 'Submit'} a Landlord Review</h1>
-        <LandlordSection />
-        <PropertySection />
-        <RatingsReviewSection />
-        <button className="rounded-full bg-transparent border-2 border-white" onClick={handleSubmit}>{isEdit ? 'Save Changes' : 'Submit'}</button>
+        <div className="flex flex-row rounded-xl bg-white">
+          <div>
+            <LandlordSection />
+            <PropertySection />
+            <RatingsSection />
+          </div>
+          <div>
+            <RatingsReviewSection />
+            <button className="rounded-full bg-transparent border-2 border-white" onClick={handleSubmit}>{isEdit ? 'Save Changes' : 'Submit'}</button>
+          </div>
+        </div>
       </main>
     </>
   );

@@ -1,5 +1,4 @@
 import FormSection from "./FormSection";
-import RatingsCollection from "./RatingsCollection";
 import InputTextBox from "./InputTextBox";
 import ReviewTextInput from "./ReviewTextInput";
 import { useContext } from "react";
@@ -10,8 +9,7 @@ const RatingsReviewSection = () => {
   const { title, setTitle, review, setReview } = reviewRating;
 
   return(
-    <FormSection titleLabel='Ratings and Review' displayRow={true}>
-      <RatingsCollection />
+    <FormSection titleLabel='Review' displayRow={true}>
       <InputTextBox labelText='Title' placeHolderText='Review Title' minWidth={'min-w-[80%]'} val={title} setVal={setTitle} />
       <ReviewTextInput labelText='Review' placeHolderText='Write your Review' val={review} setVal={setReview} />
     </FormSection>
