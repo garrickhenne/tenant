@@ -8,9 +8,14 @@ export default {
     extend: {
       fontFamily: {
         'default': ['Jost', 'Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif']
+      },
+      minHeight: {
+        '76vh': '76vh'
       }
     },
   },
-  plugins: [],
-}
+  plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true })
+  ],
+};
 

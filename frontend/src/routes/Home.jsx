@@ -1,43 +1,31 @@
-import { useContext, useState } from 'react';
-import reactLogo from '../assets/react.svg';
-import viteLogo from '/vite.svg';
 import '../App.css';
-import { authContext } from '../providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { SearchBar } from '../components/SearchBar';
 
 const Home = () => {
-  const { user } = useContext(authContext);
-  const [count, setCount] = useState(0);
   return (
-    <>
-      <div>
-        {/* Tailwind */}
-        <h1 className='text-3xl font-bold underline'>
-          Hello world!
-        </h1>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <header>
+        <h2
+          className='text-3xl text-left pb-10 text-slate-200'
+        >
+          share past living experiences
+        </h2>
+        <h2 className='text-xl pb-12 text-slate-200'>
+          Choose a filter to search for landlord reviews.
+        </h2>
+      </header>
+      <div className='min-h-76vh flex flex-col'>
+        <SearchBar className="flex-1 flex-shrink-0"/>
+        <footer
+          className="w-full h-[4.5%] text-white space-x-2 p-10 mt-auto"
+        >
+          <h1 className="py-3 text-xl font-bold">Developers</h1>
+          <a className="hover:underline" href="https://github.com/garrickhenne">@garrickhenne</a>
+          <a className="hover:underline" href="https://github.com/dantan380">@dantan380</a>
+          <a className="hover:underline" href="https://github.com/robertshum">@robertshum</a>
+        </footer>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      { user && <Link to='/reviews/new' >
-        <button>Create a new Review</button>
-      </Link> }
-    </>
+    </div>
   );
 };
 

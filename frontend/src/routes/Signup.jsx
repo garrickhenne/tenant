@@ -4,7 +4,7 @@ const Signup = () => {
 
   return (
     <main>
-      <h1>Create an Account</h1>
+      <h1 className="text-slate-200">Create an Account</h1>
 
       <SignupForm />
     </main>
