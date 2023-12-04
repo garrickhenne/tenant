@@ -53,7 +53,24 @@ const searchLandlordWithName = async(name: string) => {
 
 const searchLandlordWithPostalCode = async(postalCode: string) => {
   try {
-    return getLandlordsFromPostalCode(postalCode);
+    const landlords = [];
+    const properties = await getLandlordsFromPostalCode(postalCode);
+    for (const property of properties) {
+      // Check if property landlord id is already contained in landlords array.
+      const foundIndex = landlords.findIndex(landlord => property.landlordId._id === landlord.landlord._id);
+      const { _id, postalCode, streetName, streetNumber } = property;
+      if (foundIndex < 0) {
+        const landlord = {
+          landlord: property.landlordId,
+          properties: [{ _id, postalCode, streetName, streetNumber, landlordId: property.landlordId._id }]
+        };
+        landlords.push(landlord);
+      } else {
+        landlords[foundIndex].properties.push({ _id, postalCode, streetName, streetNumber, landlordId: property.landlordId._id });
+      }
+    }
+
+    return landlords;
   } catch (error) {
     throw Error('Search by postal code database error.');
   }
