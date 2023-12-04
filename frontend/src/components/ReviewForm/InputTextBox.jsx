@@ -6,7 +6,7 @@ const InputTextBox = ({ labelText, placeHolderText, minWidth, val, setVal }) => 
       <input
         type="text"
         placeholder={ placeHolderText }
-        className={`bg-transparent border border-white rounded-sm pl-3 h-9 ${minWidth}`}
+        className={`bg-transparent border border-gray-600 rounded-sm focus:shadow-md focus:outline-none hover:shadow-md pl-3 h-9 transition-shadow ${minWidth}`}
         onChange={ (e) => setVal(e.target.value) }
         value={ val } />
     </div>
