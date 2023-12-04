@@ -21,7 +21,7 @@ const LogoutButton = () => {
 
   return(
     <button
-      className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-white"
+      className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-white shadow-xl"
       onClick={ handleClick }
     >
         Logout
