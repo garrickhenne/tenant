@@ -10,7 +10,7 @@ const NavBar = () => {
   return(
     <nav className="flex justify-between mb-10">
       <Link to='/'>
-        <p className='font-medium text-5xl cursor-default'>tenant</p>
+        <p className='font-medium text-5xl cursor-default drop-shadow-lg'>tenant</p>
       </Link>
       <div id="nav-buttons" className="flex align-middle">
         <NavButton name='Search' path='/' />
