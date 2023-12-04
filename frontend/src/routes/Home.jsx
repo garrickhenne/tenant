@@ -6,11 +6,11 @@ const Home = () => {
     <div>
       <header>
         <h2
-          className='text-3xl text-left pb-10'
+          className='text-3xl text-left pb-10 text-slate-200'
         >
           share past living experiences
         </h2>
-        <h2 className='text-xl pb-5'>
+        <h2 className='text-xl pb-5 text-slate-200'>
           Choose a filter to search for landlord reviews.
         </h2>
       </header>
