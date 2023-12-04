@@ -43,9 +43,14 @@ export const SearchBar = () => {
   }, [searchQuery, isName]);
 
   return <div className="input-wrapper flex flex-col items-center space-y-16">
+
+    <div>
+      <button className={`${isName ? "border-[#646cff]" : "border-white"} focus:outline-none w-32 mx-1 rounded-full font-medium bg-transparent border-solid border-2  text-slate-200`} onClick={() => {setIsName(true)}}>Name</button>
+      <button className={`${isName ? "border-white" : "border-[#646cff]"} focus:outline-none w-32 mx-1 rounded-full font-medium bg-transparent border-solid border-2  text-slate-200`} onClick={() => {setIsName(false)}}>Postal Code</button>
+    </div>
     
     <input
-      className="pl-4 pr-20 w-3/4 text-left text-xl focus:outline-none bg-transparent border-solid border-2 border-white rounded-full h-16 text-slate-200"
+      className="pl-7 pr-20 w-3/4 text-left text-xl focus:outline-none bg-transparent border-solid border-2 border-white rounded-full h-16 text-slate-200"
       placeholder={isName ? "🔎 Search by name..." : "🔎 Search by postal code..."}
       value={searchQuery}
       onChange={fetchSearchResults}
@@ -56,15 +61,10 @@ export const SearchBar = () => {
         return <div
           onClick={() => navigation(`/landlords/${result.landlord._id}`)}
           className="pl-4 pt-1 pb-1 pr-4 text-2xl hover:bg-cyan-600 rounded-full text-slate-200"
-          key={result.landlord._id}>{`${result.landlord.firstName} ${result.landlord.lastName}`}
+          key={result.landlord._id}>{`${result.landlord.firstName} ${result.landlord.lastName} ------ ${result.properties[0]?.postalCode}`}
         </div>;
       })}
     </div>}
-
-    <div>
-      <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-slate-200" onClick={() => {setIsName(false)}}>Postal Code</button>
-      <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-slate-200" onClick={() => {setIsName(true)}}>Name</button>
-    </div>
 
   </div>;
 };
