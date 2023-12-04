@@ -30,7 +30,7 @@ const SignupForm = () => {
     <div className="signup">
       <form className="signup-fields flex flex-col items-center py-10 space-y-4" onSubmit={handleSubmit}>
         <div className="flex flex-col w-1/2 max-w-[33%]">
-          <label className="text-left ml-3 mb-1">Username:</label>
+          <label className="text-left ml-3 mb-1 text-slate-200">Username:</label>
           <input
             className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
             placeholder="Enter a username"
@@ -41,7 +41,7 @@ const SignupForm = () => {
           />
         </div>
         <div className="flex flex-col w-1/2 max-w-[33%]">
-          <label className="text-left ml-3 mb-1">Email:</label>
+          <label className="text-left ml-3 mb-1 text-slate-200">Email:</label>
           <input
             className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
             placeholder="Enter a valid email"
@@ -52,7 +52,7 @@ const SignupForm = () => {
           />
         </div>
         <div className="flex flex-col w-1/2 max-w-[33%]">
-          <label className="text-left ml-3 mb-1">Password:</label>
+          <label className="text-left ml-3 mb-1 text-slate-200">Password:</label>
           <input
             className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
             placeholder="Enter a password"
@@ -63,7 +63,7 @@ const SignupForm = () => {
           />
         </div>
         <div className="flex flex-col w-1/2 max-w-[33%]">
-          <label className="text-left ml-3 mb-1">Confirm password:</label>
+          <label className="text-left ml-3 mb-1 text-slate-200">Confirm password:</label>
           <input
             className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
             placeholder="Confirm your password"
@@ -75,7 +75,7 @@ const SignupForm = () => {
             }}
           />
         </div>
-        <button className="min-w-[18%] bg-transparent border-solid border-2 border-white rounded-full">Create account</button>
+        <button className="min-w-[18%] bg-transparent border-solid border-2 border-white rounded-full text-slate-200">Create account</button>
       </form>
     </div>
   );
