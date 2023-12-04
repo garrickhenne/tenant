@@ -10,9 +10,9 @@
   color-scheme: light dark;
   color: #181a1b;
   background-color: #000000;
+  background: linear-gradient(159deg, #D75E5E 0%, rgba(82, 72, 156, 0.71) 68.75%, #52489ca8 50%), url('./assets/nnnoise.svg');
   background-attachment: fixed;
-   /* background-size: cover; */
-  background-position: center; 
+  background-position: center;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
