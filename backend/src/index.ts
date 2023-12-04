@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import { searchLandlord, getReviewsWithLandlordId } from './controllers/LandlordController';
 
 // Controllers
-import { getPropertiesRequest } from './controllers/PropertyController';
+import { getPropertiesRequest, getAllPropertiesRequest } from './controllers/PropertyController';
 import { loginUser, signUpUser } from './controllers/UserController';
 
 //Routes
@@ -38,6 +38,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/api/getProperties', getPropertiesRequest);
+app.get('/api/getAllProperties', getAllPropertiesRequest);
 app.post('/api/login', (req, res) => loginUser(req, res));
 app.post('/api/signup', (req, res) => signUpUser(req, res));
 app.get('/api/logout', (req, res) => {

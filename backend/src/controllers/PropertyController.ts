@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getProperties } from '../services/PropertyService';
+import { getProperties, getAllProperties } from '../services/PropertyService';
 
 export const getPropertiesRequest = (req: Request, res: Response) => {
   const { firstName, lastName } = req.query;
@@ -10,4 +10,11 @@ export const getPropertiesRequest = (req: Request, res: Response) => {
         res.json(properties);
       });
   }
+};
+
+export const getAllPropertiesRequest = (req: Request, res: Response) => {
+  getAllProperties()
+    .then(properties => {
+      res.json(properties);
+    });
 };

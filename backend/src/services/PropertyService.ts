@@ -19,6 +19,10 @@ export const getProperties = (landLordFirstName: string, landLordLastName: strin
     });
 };
 
+export const getAllProperties = () => {
+  return Property.find({}).populate('landlordId');
+};
+
 export const getProperty = (postalCode: string, streetName: string, streetNum: number): Promise<IProperty | null> => {
   return Property.findOne({ postalCode, streetName, streetNumber: streetNum }).exec();
 };
@@ -38,7 +42,7 @@ interface FormattedPropertyData {
   streetNumber: number;
 }
 
-export const updatePropertyById = async function(objectId: string, updatedData: FormattedPropertyData) {
+export const updatePropertyById = async function (objectId: string, updatedData: FormattedPropertyData) {
 
   const formattedData = {
     postalCode: updatedData.postCode,
