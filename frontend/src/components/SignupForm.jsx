@@ -32,7 +32,7 @@ const SignupForm = () => {
         <div className="flex flex-col w-1/2 max-w-[33%]">
           <label className="text-left ml-3 mb-1 text-slate-200">Username:</label>
           <input
-            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
+            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 text-slate-200 focus:outline-none focus:shadow-md transition-shadow"
             placeholder="Enter a username"
             type="text"
             required
@@ -43,7 +43,7 @@ const SignupForm = () => {
         <div className="flex flex-col w-1/2 max-w-[33%]">
           <label className="text-left ml-3 mb-1 text-slate-200">Email:</label>
           <input
-            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
+            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 text-slate-200 focus:outline-none focus:shadow-md transition-shadow"
             placeholder="Enter a valid email"
             type="text"
             required
@@ -54,7 +54,7 @@ const SignupForm = () => {
         <div className="flex flex-col w-1/2 max-w-[33%]">
           <label className="text-left ml-3 mb-1 text-slate-200">Password:</label>
           <input
-            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
+            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 text-slate-200 focus:outline-none focus:shadow-md transition-shadow"
             placeholder="Enter a password"
             type="password"
             required
@@ -65,7 +65,7 @@ const SignupForm = () => {
         <div className="flex flex-col w-1/2 max-w-[33%]">
           <label className="text-left ml-3 mb-1 text-slate-200">Confirm password:</label>
           <input
-            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
+            className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 text-slate-200 focus:outline-none focus:shadow-md transition-shadow"
             placeholder="Confirm your password"
             type="password"
             required
