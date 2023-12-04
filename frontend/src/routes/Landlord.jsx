@@ -13,6 +13,13 @@ const Landlord = () => {
   const [averageRatings, setAverageRatings] = useState({});
 
   useEffect(() => {
+    const oldTitle = document.title;
+    document.title = 'tenant | Landlord';
+
+    return () => document.title = oldTitle;
+  }, []);
+
+  useEffect(() => {
     const params = { landlordId };
     axios.get('/api/landlords', { params })
       .then(response => response.data)
