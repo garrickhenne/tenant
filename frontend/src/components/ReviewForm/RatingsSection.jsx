@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import { newReviewContext } from "../../providers/NewReviewProvider";
 import FormSection from "./FormSection";
 import RatingsCollection from "./RatingsCollection";
+import IconHandThumbsUp from "./icons/IconHandThumbsUp";
 
 const RatingsSection = () => {
 
   return (
-    <FormSection titleLabel='Rating' displayRow={true}>
+    <FormSection titleLabel='Rating' icon={IconHandThumbsUp}>
       <RatingsCollection />
     </FormSection>
   );

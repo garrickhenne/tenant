@@ -2,12 +2,12 @@ import { useContext, useEffect } from "react";
 import { newReviewContext } from "../../providers/NewReviewProvider";
 import LandlordSection from "./LandlordSection";
 import PropertySection from "./PropertySection";
-import RatingsReviewSection from "./RatingsReviewSection";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import RatingsSection from "./RatingsSection";
+import ReviewSection from "./ReviewSection";
 
 const ReviewForm = () => {
   const navigate = useNavigate();
@@ -137,15 +137,14 @@ const ReviewForm = () => {
       <main className="flex justify-center gap-y-7 flex-col items-center">
         <h1 className="self-start font-bold text-4xl  text-white">
           {isEdit ? 'Edit' : 'Submit'} a Landlord Review</h1>
-        <div className="flex flex-row rounded-xl bg-white">
-          <div>
+        <div className="flex flex-row rounded-xl shadow-2xl bg-white min-w-[90%]">
+          <div id="create-review__left" className="min-w-[50%]">
             <LandlordSection />
             <PropertySection />
             <RatingsSection />
           </div>
-          <div>
-            <RatingsReviewSection />
-            <button className="rounded-full bg-transparent border-2 border-white" onClick={handleSubmit}>{isEdit ? 'Save Changes' : 'Submit'}</button>
+          <div id="create-review__right" className="min-w-[50%] border-l border-gray-300">
+            <ReviewSection isEdit={isEdit} handleSubmit={handleSubmit} />
           </div>
         </div>
       </main>
