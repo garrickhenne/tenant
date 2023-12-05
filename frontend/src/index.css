@@ -12,15 +12,11 @@
   background-color: #000000;
   background: linear-gradient(159deg, #D75E5E 0%, rgba(82, 72, 156, 0.71) 68.75%, #52489ca8 50%) center no-repeat, url('./assets/nnnoise.svg') center repeat;
   background-attachment: fixed;
-   /* background-size: cover; */
-  background-position: center; 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  background-repeat: no-repeat;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(159deg, #D75E5E 0%, rgba(82, 72, 156, 0.71) 68.75%, #52489ca8 50%), url('./assets/nnnoise.svg');
 }
 
 a {
