@@ -14,7 +14,7 @@ import {
   getOverallDisplayScore,
   getPercentage,
   getOverallScorePercentage
-} from '../../ComponentHelper';
+} from '../../helpers/ComponentHelper';
 
 // Tailwind Component from:
 // https://tailwindcomponents.com/component/area-liveability-score
