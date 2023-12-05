@@ -102,9 +102,9 @@ const Map = () => {
 
           if (!foundObject) {
 
+            // TODO: do this call on property creation.  Very expensive to do this on every property fetch.
             const response = await axios.get(`http://api.geonames.org/postalCodeSearchJSON?postalcode=${postalCode}&maxRows=1&username=shumbum`);
 
-            console.log(response.data);
             if (response.data.postalCodes) {
               // if it can't find lat long, don't create a marker.
               const coords = response.data.postalCodes[0];
@@ -114,6 +114,7 @@ const Map = () => {
 
                 markersArray.push({
                   [postalCode]: {
+                    landlordId: property.landlordId._id,
                     streetName: property.streetName,
                     streetNumber: property.streetNumber,
                     long: lng,
@@ -135,7 +136,6 @@ const Map = () => {
           }
         }
       }
-
       setMarkers(markersArray);
     }
   };
@@ -156,7 +156,7 @@ const Map = () => {
 
             const firstKey = Object.keys(marker)[0];
             const details = marker[firstKey];
-            console.log("details", details);
+
             return (
               <li key={firstKey}>
                 <Marker
