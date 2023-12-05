@@ -112,7 +112,7 @@ const AboutPage = () => {
         </ul>
         <section className="justify-center items-center flex pt-10">
           <img
-            src="../../public/throttle_ok.png"
+            src="/throttle_ok.png"
             className="object-contain w-[75rem] rounded-2xl"
           >
           </img>
@@ -132,12 +132,12 @@ const AboutPage = () => {
       </article>
       <section className="flex flex-col items-center justify-center">
         <img
-          src="../../public/kanban.png"
+          src="/kanban.png"
           className="object-contain scale-90 rounded-2xl"
         >
         </img>
         <img
-          src="../../public/figma.png"
+          src="/figma.png"
           className="object-contain scale-90 rounded-2xl"
         >
         </img>
