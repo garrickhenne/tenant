@@ -11,6 +11,7 @@ import UserDashboard from './routes/UserDashboard';
 import Login from './routes/Login';
 import NewReview from './routes/NewReview';
 import Landlord from './routes/Landlord';
+import AboutUs from './routes/AboutUs';
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/reviews/new' element={<NewReview />} />
         <Route path='/reviews/:reviewId' element={<NewReview />} />
         <Route path='/landlords/:landlordId' element={<Landlord />} />
+        <Route path='/about' element={<AboutUs />}></Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
