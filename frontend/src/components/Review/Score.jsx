@@ -1,4 +1,3 @@
-import { getSentimentText } from '../../ComponentHelper';
 
 const Score = function(props) {
 
