@@ -86,7 +86,7 @@ const AutoCompleteInput = ({ val, setVal }) => {
           renderInput={(params) => {
             return(
               <div ref={params.InputProps.ref}>
-                <input type="text" {...params.inputProps} className="bg-transparent border border-white rounded-sm pl-3 h-9 w-[100%]" placeholder="A1B-2C3" value={val} onChange={(e) => setVal(e.target.value)}/>
+                <input type="text" {...params.inputProps} className="bg-transparent border border-gray-500 rounded-lg focus:shadow-md focus:outline-none hover:shadow-md pl-3 h-9 w-[100%] transition-shadow" placeholder="A1B-2C3" value={val} onChange={(e) => setVal(e.target.value)}/>
               </div>
             );
           }}

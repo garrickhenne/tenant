@@ -34,7 +34,7 @@ const LoginForm = () => {
         <label className="text-left ml-3 mb-1 text-slate-200">Email</label>
         <input
           type="email"
-          className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
+          className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 text-slate-200 focus:outline-none focus:shadow-md transition-shadow"
           placeholder="Enter your email"
           onChange={ handleEmailChange }
         />
@@ -43,7 +43,7 @@ const LoginForm = () => {
         <label className="text-left ml-3 mb-1 text-slate-200">Password</label>
         <input
           type="password"
-          className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11"
+          className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 text-slate-200 focus:outline-none focus:shadow-md transition-shadow"
           placeholder="Password"
           onChange={ handlePasswordChange }
         />

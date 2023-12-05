@@ -9,6 +9,13 @@ const UserDashboard = () => {
   const { user } = useContext(authContext);
   const [dashboard, setDashboard] = useState([]);
 
+  useEffect(() => {
+    const oldTitle = document.title;
+    document.title = 'tenant | Account';
+
+    return () => document.title = oldTitle;
+  }, []);
+
   // Get the reviews.  Authentication handled in backend
   useEffect(() => {
     axios.get(`/api/dashboard`)
