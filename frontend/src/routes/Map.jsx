@@ -54,29 +54,9 @@ const Map = () => {
 
     const response = axios.get('/api/getAllProperties')
       .then(response => {
-        // console.log('all properties', response.data);
-
-        // create a new array  will contain UNIQUE properties
-        // each property will have UNIQUE postal code
-        //    a long lang coord
-        //    street name, street number, landlord first last name
-        // [{'v6x1p2':{streetName:..}}]
-
         const markerInfo = convertTomarkerInfo(response.data);
       });
 
-
-    // axios.get(`http://api.geonames.org/postalCodeSearchJSON?postalcode=V6X1P2&maxRows=1&username=${GEONAME_USERNAME}`)
-    //   .then(response => {
-
-    //     const lng = response.data.postalCodes[0].lng;
-    //     const lat = response.data.postalCodes[0].lat;
-    //     // console.log("lng", lng, "lat", lat);
-
-
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });
   }, []);
 
   // We want an array that looks like this:
@@ -109,8 +89,6 @@ const Map = () => {
     if (data) {
       const markersArray = [];
 
-      //for (const property of data) {
-
       // TODO throttling myself
       // Just do 5 properties
       for (let i = 0; i < data.length; i++) {
@@ -134,7 +112,6 @@ const Map = () => {
                 const lng = coords.lng;
                 const lat = coords.lat;
 
-                // console.log("property", property);
                 markersArray.push({
                   [postalCode]: {
                     streetName: property.streetName,
@@ -156,12 +133,9 @@ const Map = () => {
             // we would add that to part of the postal code
             // right now the postal code is an object, with one entry, it should be an array.
           }
-          //};
         }
       }
 
-
-      // console.log("markers", markers);
       setMarkers(markersArray);
     }
   };
@@ -200,19 +174,6 @@ const Map = () => {
             );
           })}
         </ul>
-        {/* <li key={'1'}>
-            <Marker
-              latitude={49.188362}
-              longitude={-123.12374}
-              offsetLeft={10}
-              offsetTop={10}>
-              <div
-                onClick={() => console.log("marker clicked")}
-                className="marker">3
-              </div>
-            </Marker>
-          </li> */}
-        {/* </ul> */}
       </ReactMapGL>
       <input
         className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 mt-5"
@@ -224,7 +185,5 @@ const Map = () => {
     </div>
   );
 };
-
-
 
 export default Map;
