@@ -6,12 +6,19 @@ import axios from 'axios';
 // IF YOU MOVE IT MAKE SURE THE MARKERS AND THE MAP CAN REFERENCE THIS
 // BECAUSE THERE IS BLACK MAGIC HAPPENING WITH THE CSS THAT IS ESSENTIAL
 import 'mapbox-gl/dist/mapbox-gl.css';
+import MapModal from '../components/MapModal/MapModal';
 
 // VITE Automatically looks into ENV files.  Anything prefixed with VITE_ can be used like this:
 const MAPBOX_TOKEN = import.meta.env.VITE_MAP_BOX_API_KEY;
 const GEONAME_USERNAME = import.meta.env.VITE_GEONAME_API_USERNAME;
 
 const Map = () => {
+  useEffect(() => {
+    const oldTitle = document.title;
+    document.title = 'tenant | Map';
+
+    return () => document.title = oldTitle;
+  }, []);
 
   const [postalCode, setPostalCode] = useState('');
   const [viewport, setViewport] = useState({
@@ -21,6 +28,13 @@ const Map = () => {
 
   });
   const [markers, setMarkers] = useState([]);
+  const [openModal, setOpenModal] = useState('');
+  const closeModal = (e) => {
+    setOpenModal('');
+    
+    // This right here took me an hour to figure out.
+    e.stopPropagation();
+  };
 
   const handlePostalCode = function(e) {
     const newPostalCode = e.target.value;
@@ -125,8 +139,7 @@ const Map = () => {
                 });
               }
             }
-          }
-          else {
+          } else {
             // TODO for future dev who cares about data integrity:
             // if there is an existing postal code
             // AND if any of the following are different,
@@ -149,7 +162,6 @@ const Map = () => {
         onMove={evt => setViewport(evt.viewState)}
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ width: "100%", height: 500 }}
-
       >
         <ul>
           {markers.map(marker => {
@@ -166,8 +178,9 @@ const Map = () => {
                   offsetTop={10}>
                   <div
                     // TODO Launch Modal here.  'details' has all info
-                    onClick={() => console.log("marker clicked.  Info:", details)}
+                    onClick={() => setOpenModal(() => details.landlordId)}
                     className="marker">1
+                    {openModal === details?.landlordId && <MapModal data={details} openModal={openModal} closeModal={closeModal} />}
                   </div>
                 </Marker>
               </li>
@@ -176,7 +189,7 @@ const Map = () => {
         </ul>
       </ReactMapGL>
       <input
-        className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 mt-5"
+        className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 mt-5 focus:outline-none text-slate-200"
         placeholder="Enter a Postal Code"
         required
         value={postalCode}

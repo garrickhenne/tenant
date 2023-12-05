@@ -12,6 +12,7 @@ import {
   getPercentage,
   getOverallScorePercentage
 } from '../../helpers/ComponentHelper';
+import { calculateOverallScore } from '../../helpers/LandlordHelpers';
 
 const LandlordReview = function({ item }) {
 
@@ -21,7 +22,7 @@ const LandlordReview = function({ item }) {
   const healthSafety = item.healthSafety;
   const respect = item.respect;
   const repair = item.repair;
-  const overallScore = item.overallScore;
+  const overallScore = isNaN(item.overallScore) ? calculateOverallScore(repair, respect, healthSafety, sentiment) : item.overallScore;
 
   return (
     <section
