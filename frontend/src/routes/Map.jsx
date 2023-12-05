@@ -13,6 +13,12 @@ const MAPBOX_TOKEN = import.meta.env.VITE_MAP_BOX_API_KEY;
 const GEONAME_USERNAME = import.meta.env.VITE_GEONAME_API_USERNAME;
 
 const Map = () => {
+  useEffect(() => {
+    const oldTitle = document.title;
+    document.title = 'tenant | Map';
+
+    return () => document.title = oldTitle;
+  }, []);
 
   const [postalCode, setPostalCode] = useState('');
   const [viewport, setViewport] = useState({
@@ -183,7 +189,7 @@ const Map = () => {
         </ul>
       </ReactMapGL>
       <input
-        className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 mt-5"
+        className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 mt-5 focus:outline-none text-slate-200"
         placeholder="Enter a Postal Code"
         required
         value={postalCode}
