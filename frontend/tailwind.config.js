@@ -10,7 +10,8 @@ export default {
         'default': ['Jost', 'Inter', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif']
       },
       minHeight: {
-        '76vh': '76vh'
+        '76vh': '76vh',
+        '74vh': '74vh'
       }
     },
   },
