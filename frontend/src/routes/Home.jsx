@@ -14,7 +14,7 @@ const Home = () => {
           Choose a filter to search for landlord reviews.
         </h2>
       </header>
-      <div className='min-h-76vh flex flex-col'>
+      <div className='min-h-74vh flex flex-col'>
         <SearchBar className="flex-1 flex-shrink-0"/>
         <footer
           className="w-full h-[4.5%] text-white space-x-2 p-10 mt-auto"
