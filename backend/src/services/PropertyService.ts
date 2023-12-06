@@ -1,9 +1,16 @@
 import { Types } from 'mongoose';
 import Landlord from '../model/Landlord';
 import Property, { IProperty } from '../model/Property';
+import { getCoordinateByPostalCode } from '../apis/geonames';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const createProperty = (postalCode: string, streetName: string, streetNumber: number, landlordId: Types.ObjectId): Promise<IProperty> => {
-  return Property.create({ postalCode, streetName, streetNumber, landlordId });
+  return getCoordinateByPostalCode(postalCode)
+    .then(location => {
+      return Property.create({ postalCode, streetName, streetNumber, location, landlordId });
+    });
 };
 
 export const getProperties = (landLordFirstName: string, landLordLastName: string): Promise<IProperty[]> => {
@@ -42,7 +49,7 @@ interface FormattedPropertyData {
   streetNumber: number;
 }
 
-export const updatePropertyById = async function (objectId: string, updatedData: FormattedPropertyData) {
+export const updatePropertyById = async function(objectId: string, updatedData: FormattedPropertyData) {
 
   const formattedData = {
     postalCode: updatedData.postCode,
