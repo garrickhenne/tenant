@@ -1,12 +1,13 @@
 import { connectToMongoDB, closeMongoDBConnection } from './connection';
 import dotenv from 'dotenv';
-import Landlord from '../model/Landlord';
-import User from '../model/User';
+import Landlord, { ILandlord } from '../model/Landlord';
+import User, { IUser } from '../model/User';
 import Review from '../model/Review';
 import Incident from '../model/Incident';
 import Property from '../model/Property';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
+import { getCalculatedReviewScore } from '../services/ServicesHelper';
 import { getRandomPostalCode, randomReview } from './dbResetHelper';
 
 //For env File
@@ -39,8 +40,8 @@ const populateRecords = async function () {
   // arbitrary 15
   const numOfLandlords = 15;
 
-  // we want the number of users and landlords to be the same for ease of mocking reviews.  Subtract 3 because we want to include ourselves, the devs!
-  const numOfUsers = numOfLandlords - 3;
+  // we want the number of users and landlords to be the same for ease of mocking reviews.
+  const numOfUsers = numOfLandlords;
   const verySecureUserPassword = '123';
 
   // MASS Mock Landlords
@@ -66,28 +67,6 @@ const populateRecords = async function () {
     mockUsers.push(newUser);
   }
 
-  // Don't forget about us!
-  const garrick = new User({
-    username: 'gh',
-    email: 'gh@email.com',
-    password: hash,
-  });
-  mockUsers.push(garrick);
-
-  const dan = new User({
-    username: 'dt',
-    email: 'dt@email.com',
-    password: hash,
-  });
-  mockUsers.push(dan);
-
-  const rob = new User({
-    username: 'rs',
-    email: 'rs@email.com',
-    password: hash,
-  });
-  mockUsers.push(rob);
-
   try {
     const savedLandlords = await Landlord.insertMany(mockLandlords);
     const savedUsers = await User.insertMany(mockUsers);
@@ -103,31 +82,172 @@ const populateRecords = async function () {
 
     await Property.insertMany(mockProperties);
 
-    // MASS Mock Reviews
-    const mockReviews = savedUsers.map((user, index) => {
+    // Special Cases - create 3 dev users, create 2 properties and 2 landlords, then create two reviews from one user (gh@email.com).  We do it here because we want the special cases to show up first for the demo.
 
-      // generate random review with preset ratings/titles/desc
-      const aReview = randomReview();
-      const reviewRating = aReview.rating;
-      const reviewTitle = aReview.title;
-      const entry = {
-        title: reviewTitle,
-        description: aReview.desc,
-        sentiment: 0,
-        healthSafety: reviewRating,
-        respect: reviewRating,
-        repair: reviewRating,
-        userId: user._id,
-        landlordId: savedLandlords[index]._id,
-      };
-      return entry;
+    // Don't forget about us!
+    const garrick = new User({
+      username: 'gh',
+      email: 'gh@email.com',
+      password: hash,
     });
+    const garrickUser = await garrick.save();
 
-    await Review.insertMany(mockReviews);
+    const dan = new User({
+      username: 'dt',
+      email: 'dt@email.com',
+      password: hash,
+    });
+    const danUser = await dan.save();
+
+    const rob = new User({
+      username: 'rs',
+      email: 'rs@email.com',
+      password: hash,
+    });
+    const robUser = await rob.save();
+
+    const scornedLandlord = new Landlord({
+      firstName: 'Scrooge',
+      lastName: 'McDuck',
+      organization: 'Wealth, Inc.',
+    });
+    const savedScornedLandlord = await scornedLandlord.save();
+
+    const nally = new Landlord({
+      firstName: 'Christian',
+      lastName: 'Nally',
+      organization: 'LHL',
+    });
+    const savedNallyLandlord = await nally.save();
+
+    const scornedProperty = new Property({
+      postalCode: getRandomPostalCode(),
+      streetName: faker.location.street(),
+      streetNumber: 42,
+      landlordId: scornedLandlord._id,
+    });
+    const savedScornedProperty = await scornedProperty.save();
+
+    const nallyProperty = new Property({
+      postalCode: getRandomPostalCode(),
+      streetName: faker.location.street(),
+      streetNumber: 42,
+      landlordId: nally._id,
+    });
+    const savedNallyProperty = await nallyProperty.save();
+
+    // create scorned review
+    const scornedReview1 = new Review({
+      title: 'Penny Pinching Landlord',
+      description: 'Would never repair the radiator, the place was always very cold.  Would quack at us for making the slighest noise.',
+      sentiment: -0.65,
+      healthSafety: 3,
+      respect: 2,
+      repair: 1,
+      overallScore: getCalculatedReviewScore(3, 2, 1, -0.65),
+      userId: garrick._id,
+      landlordId: scornedLandlord._id,
+    });
+    const createdScornedReview1 = await scornedReview1.save();
+
+    // create scorned review
+    const scornedReview2 = new Review({
+      title: 'Always walks with a cane upstairs',
+      description: 'I keep hearing a cane banging against the roof, upstairs.  One time he accepted a late payment, so I am thankful for that.  However, he is quite stingy in repairs.',
+      sentiment: 0.15,
+      healthSafety: 3,
+      respect: 4,
+      repair: 2,
+      overallScore: getCalculatedReviewScore(3, 4, 2, 0.15),
+      userId: dan._id,
+      landlordId: scornedLandlord._id,
+    });
+    const createdScornedReview2 = await scornedReview2.save();
+
+    // create scorned review
+    const scornedReview3 = new Review({
+      title: 'I cannot complain, the rent is cheap',
+      description: 'Good value for location and comes with lots of amenities, however, they are really dated and requires lots of repair.  It would be nice if some of the appliances are upgraded.  Its 2023 and the stovetop looks like it was made in 1965.',
+      sentiment: 0.15,
+      healthSafety: 3,
+      respect: 3,
+      repair: 3,
+      overallScore: getCalculatedReviewScore(3, 3, 3, 0.15),
+      userId: rob._id,
+      landlordId: scornedLandlord._id,
+    });
+    const createdScornedReview3 = await scornedReview3.save();
+
+    // create nally review
+    const nallyReview = new Review({
+      title: 'Fantastic Landlord',
+      description: 'No complaints.  Some notes: always in the attic, sometimes I hear singing and guitar strumming.  Christian keeps mentioning "Team semi-colon" at least once a day.  Has a wonderful dog named "Snoopy".',
+      sentiment: 0.90,
+      healthSafety: 5,
+      respect: 5,
+      repair: 5,
+      overallScore: getCalculatedReviewScore(5, 5, 5, 0.90),
+      userId: garrick._id,
+      landlordId: nally._id,
+    });
+    const createdNallyReview = await nallyReview.save();
+
+    // create nally review
+    const nallyReview2 = new Review({
+      title: 'Great Place to rent',
+      description: 'Reasonable rent, very friendly, really good at coding.  The place rented out is kept very tidy".',
+      sentiment: 0.91,
+      healthSafety: 5,
+      respect: 5,
+      repair: 5,
+      overallScore: getCalculatedReviewScore(5, 5, 5, 0.91),
+      userId: rob._id,
+      landlordId: nally._id,
+    });
+    const createdNallyReview2 = await nallyReview2.save();
+
+    // ---end of special cases
+
+    // MASS Mock Reviews
+    const mockReviewsRound1 = createReviewsFromUsers(savedUsers, savedLandlords);
+
+    const mockReviewsRound2 = createReviewsFromUsers(savedUsers, savedLandlords);
+
+    await Review.insertMany(mockReviewsRound1.concat(mockReviewsRound2));
+
     console.log('Mock data created successfully.');
   } catch (error) {
     console.error('Error creating mock data:', error);
   }
+};
+
+const createReviewsFromUsers = function (savedUsers: IUser[], savedLandlords: ILandlord[]) {
+  const mockReviews = savedUsers.map((user, index) => {
+
+    // generate random review with preset ratings/titles/desc
+    const aReview = randomReview();
+    const reviewRating = aReview.rating;
+    const reviewTitle = aReview.title;
+    const entry = {
+      title: reviewTitle,
+      description: aReview.desc,
+      sentiment: 0,
+      healthSafety: reviewRating,
+      respect: reviewRating,
+      repair: reviewRating,
+      userId: user._id,
+      landlordId: savedLandlords[index]._id,
+      overallScore: getCalculatedReviewScore(
+        reviewRating,
+        reviewRating,
+        reviewRating,
+        0
+      )
+    };
+    return entry;
+  });
+
+  return mockReviews;
 };
 
 const resetDatabase = async function () {
