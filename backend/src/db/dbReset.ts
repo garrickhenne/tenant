@@ -7,6 +7,7 @@ import Incident from '../model/Incident';
 import Property from '../model/Property';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
+import { getCalculatedReviewScore } from '../services/ServicesHelper';
 import { getRandomPostalCode, randomReview } from './dbResetHelper';
 
 //For env File
@@ -39,8 +40,8 @@ const populateRecords = async function () {
   // arbitrary 15
   const numOfLandlords = 15;
 
-  // we want the number of users and landlords to be the same for ease of mocking reviews.  Subtract 3 because we want to include ourselves, the devs!
-  const numOfUsers = numOfLandlords - 3;
+  // we want the number of users and landlords to be the same for ease of mocking reviews.
+  const numOfUsers = numOfLandlords;
   const verySecureUserPassword = '123';
 
   // MASS Mock Landlords
@@ -66,28 +67,6 @@ const populateRecords = async function () {
     mockUsers.push(newUser);
   }
 
-  // Don't forget about us!
-  const garrick = new User({
-    username: 'gh',
-    email: 'gh@email.com',
-    password: hash,
-  });
-  mockUsers.push(garrick);
-
-  const dan = new User({
-    username: 'dt',
-    email: 'dt@email.com',
-    password: hash,
-  });
-  mockUsers.push(dan);
-
-  const rob = new User({
-    username: 'rs',
-    email: 'rs@email.com',
-    password: hash,
-  });
-  mockUsers.push(rob);
-
   try {
     const savedLandlords = await Landlord.insertMany(mockLandlords);
     const savedUsers = await User.insertMany(mockUsers);
@@ -102,6 +81,104 @@ const populateRecords = async function () {
     }));
 
     await Property.insertMany(mockProperties);
+
+    // Special Cases - create 3 dev users, create 2 properties and 2 landlords, then create two reviews from one user (gh@email.com).  We do it here because we want the special cases to show up first for the demo.
+
+    // Don't forget about us!
+    const garrick = new User({
+      username: 'gh',
+      email: 'gh@email.com',
+      password: hash,
+    });
+    const garrickUser = await garrick.save();
+
+    const dan = new User({
+      username: 'dt',
+      email: 'dt@email.com',
+      password: hash,
+    });
+    const danUser = await dan.save();
+
+    const rob = new User({
+      username: 'rs',
+      email: 'rs@email.com',
+      password: hash,
+    });
+    const robUser = await rob.save();
+
+    const scornedLandlord = new Landlord({
+      firstName: 'Scrooge',
+      lastName: 'McDuck',
+      organization: 'Wealth, Inc.',
+    });
+    const savedScornedLandlord = await scornedLandlord.save();
+
+    const nally = new Landlord({
+      firstName: 'Christian',
+      lastName: 'Nally',
+      organization: 'LHL',
+    });
+    const savedNallyLandlord = await nally.save();
+
+    const scornedProperty = new Property({
+      postalCode: getRandomPostalCode(),
+      streetName: faker.location.street(),
+      streetNumber: 42,
+      landlordId: scornedLandlord._id,
+    });
+    const savedScornedProperty = await scornedProperty.save();
+
+    const nallyProperty = new Property({
+      postalCode: getRandomPostalCode(),
+      streetName: faker.location.street(),
+      streetNumber: 42,
+      landlordId: nally._id,
+    });
+    const savedNallyProperty = await nallyProperty.save();
+
+    // create scorned review
+    const scornedReview = new Review({
+      title: 'Penny Pinching Landlord',
+      description: 'Would never repair the radiator, the place was always very cold.  Would quack at us for making the slighest noise.',
+      sentiment: -0.65,
+      healthSafety: 3,
+      respect: 2,
+      repair: 1,
+      overallScore: getCalculatedReviewScore(3, 2, 1, -0.65),
+      userId: garrick._id,
+      landlordId: scornedLandlord._id,
+    });
+    const createdScornedReview = await scornedReview.save();
+
+    // create nally review
+    const nallyReview = new Review({
+      title: 'Fantastic Landlord',
+      description: 'No complaints.  Some notes: always in the attic, sometimes I hear singing and guitar strumming.  Christian keeps mentioning "Team semi-colon" at least once a day.  Has a wonderful dog named "Snoopy".',
+      sentiment: 0.90,
+      healthSafety: 5,
+      respect: 5,
+      repair: 5,
+      overallScore: getCalculatedReviewScore(5, 5, 5, 0.90),
+      userId: garrick._id,
+      landlordId: nally._id,
+    });
+    const createdNallyReview = await nallyReview.save();
+
+    const regularReview = new Review({
+      title: 'Fantastic Landlord',
+      description: 'No complaints.  Some notes: always in the attic, sometimes I hear singing and guitar strumming.  Christian keeps mentioning "Team semi-colon" at least once a day.  Has a wonderful dog named "Snoopy".',
+      sentiment: 0.90,
+      healthSafety: 5,
+      respect: 5,
+      repair: 5,
+      overallScore: getCalculatedReviewScore(5, 5, 5, 0.90),
+      userId: garrick._id,
+      landlordId: nally._id,
+    });
+    const createdRegularReview = await regularReview.save();
+
+    // ---end of special cases
+
 
     // MASS Mock Reviews
     const mockReviews = savedUsers.map((user, index) => {
@@ -119,6 +196,12 @@ const populateRecords = async function () {
         repair: reviewRating,
         userId: user._id,
         landlordId: savedLandlords[index]._id,
+        overallScore: getCalculatedReviewScore(
+          reviewRating,
+          reviewRating,
+          reviewRating,
+          0
+        )
       };
       return entry;
     });
