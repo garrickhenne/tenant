@@ -1,7 +1,7 @@
 import { connectToMongoDB, closeMongoDBConnection } from './connection';
 import dotenv from 'dotenv';
-import Landlord from '../model/Landlord';
-import User from '../model/User';
+import Landlord, { ILandlord } from '../model/Landlord';
+import User, { IUser } from '../model/User';
 import Review from '../model/Review';
 import Incident from '../model/Incident';
 import Property from '../model/Property';
@@ -192,40 +192,62 @@ const populateRecords = async function () {
     });
     const createdNallyReview = await nallyReview.save();
 
+    // create nally review
+    const nallyReview2 = new Review({
+      title: 'Great Place to rent',
+      description: 'Reasonable rent, very friendly, really good at coding.  The place rented out is kept very tidy".',
+      sentiment: 0.91,
+      healthSafety: 5,
+      respect: 5,
+      repair: 5,
+      overallScore: getCalculatedReviewScore(5, 5, 5, 0.91),
+      userId: rob._id,
+      landlordId: nally._id,
+    });
+    const createdNallyReview2 = await nallyReview2.save();
+
     // ---end of special cases
 
-
     // MASS Mock Reviews
-    const mockReviews = savedUsers.map((user, index) => {
+    const mockReviewsRound1 = createReviewsFromUsers(savedUsers, savedLandlords);
 
-      // generate random review with preset ratings/titles/desc
-      const aReview = randomReview();
-      const reviewRating = aReview.rating;
-      const reviewTitle = aReview.title;
-      const entry = {
-        title: reviewTitle,
-        description: aReview.desc,
-        sentiment: 0,
-        healthSafety: reviewRating,
-        respect: reviewRating,
-        repair: reviewRating,
-        userId: user._id,
-        landlordId: savedLandlords[index]._id,
-        overallScore: getCalculatedReviewScore(
-          reviewRating,
-          reviewRating,
-          reviewRating,
-          0
-        )
-      };
-      return entry;
-    });
+    const mockReviewsRound2 = createReviewsFromUsers(savedUsers, savedLandlords);
 
-    await Review.insertMany(mockReviews);
+    await Review.insertMany(mockReviewsRound1.concat(mockReviewsRound2));
+
     console.log('Mock data created successfully.');
   } catch (error) {
     console.error('Error creating mock data:', error);
   }
+};
+
+const createReviewsFromUsers = function (savedUsers: IUser[], savedLandlords: ILandlord[]) {
+  const mockReviews = savedUsers.map((user, index) => {
+
+    // generate random review with preset ratings/titles/desc
+    const aReview = randomReview();
+    const reviewRating = aReview.rating;
+    const reviewTitle = aReview.title;
+    const entry = {
+      title: reviewTitle,
+      description: aReview.desc,
+      sentiment: 0,
+      healthSafety: reviewRating,
+      respect: reviewRating,
+      repair: reviewRating,
+      userId: user._id,
+      landlordId: savedLandlords[index]._id,
+      overallScore: getCalculatedReviewScore(
+        reviewRating,
+        reviewRating,
+        reviewRating,
+        0
+      )
+    };
+    return entry;
+  });
+
+  return mockReviews;
 };
 
 const resetDatabase = async function () {
