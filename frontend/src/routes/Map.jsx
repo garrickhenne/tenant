@@ -36,6 +36,7 @@ const Map = () => {
     e.stopPropagation();
   };
 
+  // We have to call geonames when we search for postal code in input component.
   const handlePostalCode = function(e) {
     const newPostalCode = e.target.value;
     setPostalCode(newPostalCode);
@@ -66,121 +67,87 @@ const Map = () => {
   // in render,  {markers.map((marker) => (...) where markers is the useState state
   useEffect(() => {
 
-    const response = axios.get('/api/getAllProperties')
+    axios.get('/api/getAllProperties')
       .then(response => {
-        const markerInfo = convertTomarkerInfo(response.data);
+        convertTomarkerInfo(response.data);
       });
 
   }, []);
 
-  // We want an array that looks like this:
-  // [
-  //   {
-  //     'v6x1p2': {
-  //       streetName: 'charm',
-  //       streetNumber: '42',
-  //       landlordFirstName: 'Bossman',
-  //       landlordLastName: 'Boss',
-  //       long: 42.2,
-  //       lat: -123.4
-  //     },
-  //     'v4b1q4': {
-  //       streetName: '...',
-  //     },
-  //   },
-  // ];
+  /* We want an array that looks like this:
+    Each array item is an object with postal code. Each postal code object contains its location data + all landlords
+    that have a property on that postal code.
+    [
+     {
+      postalCode: 'V5N-2C4',
+      lat: 54.441951751709,
+      long: -124.247741699219,
+      landlords: [{ landlord1... }, { landlord2... } ...]
+     }
+    ]
+  */
   const convertTomarkerInfo = async function(data) {
-
-    // data looks like this:
-    // [
-    //   {
-    //     landlordId: { ...landlordRelatedFields },
-    //     postalCode: 'V6X1p5',
-    //     streetName: 'Charm St',
-    //     streetnum: 42
-    //   }
-    // ];
-    if (data) {
-      const markersArray = [];
-
-      // TODO throttling myself
-      // Just do 5 properties
-      for (let i = 0; i < data.length; i++) {
-        if (i <= 4) {
-          const property = data[i];
-
-          // if it doesn't exist
-          const postalCode = property.postalCode;
-          const foundObject = markersArray.find(obj =>
-            Object.keys(obj)[0] === postalCode);
-
-          if (!foundObject) {
-
-            // TODO: do this call on property creation.  Very expensive to do this on every property fetch.
-            const response = await axios.get(`http://api.geonames.org/postalCodeSearchJSON?postalcode=${postalCode}&maxRows=1&username=shumbum`);
-
-            if (response.data.postalCodes) {
-              // if it can't find lat long, don't create a marker.
-              const coords = response.data.postalCodes[0];
-              if (coords) {
-                const lng = coords.lng;
-                const lat = coords.lat;
-
-                markersArray.push({
-                  [postalCode]: {
-                    landlordId: property.landlordId._id,
-                    streetName: property.streetName,
-                    streetNumber: property.streetNumber,
-                    long: lng,
-                    lat: lat,
-                    firstName: property.landlordId.firstName,
-                    lastName: property.landlordId.lastName,
-                  }
-                });
-              }
-            }
-          } else {
-            // TODO for future dev who cares about data integrity:
-            // if there is an existing postal code
-            // AND if any of the following are different,
-            //   the street number, street address, landlord first name, last name
-            // we would add that to part of the postal code
-            // right now the postal code is an object, with one entry, it should be an array.
-          }
-        }
-      }
-      setMarkers(markersArray);
+    if (!data) {
+      return;
     }
+
+    const populatedPostalCodes = [];
+
+    for (const postalData of data) {
+      const landlordData = {
+        ...postalData.landlordId,
+        streetName: postalData.streetName,
+        streetNumber: postalData.streetNumber
+      };
+
+      const foundIndex = populatedPostalCodes.findIndex(postal => postalData.postalCode === postal.postalCode);
+
+      // populatedPostalCodes has postal code set up already. Append this landlord to the list of landlords.
+      if (foundIndex >= 0) {
+        populatedPostalCodes[foundIndex].landlords.push(landlordData);
+        continue;
+      }
+
+      // First postal code populatedPostalCodes has seen, set it up as array.
+      populatedPostalCodes.push({
+        postalCode: postalData.postalCode,
+        long: postalData.location.coordinates[1],
+        lat: postalData.location.coordinates[0],
+        landlords: [landlordData]
+      });
+    }
+
+    console.log('populatedPostalCodes:', populatedPostalCodes);
+    setMarkers([...populatedPostalCodes]);
   };
 
   return (
     <div>
-
       <ReactMapGL
         {...viewport}
         mapStyle="mapbox://styles/mapbox/streets-v12"
-        onMove={evt => setViewport(evt.viewState)}
+        onMove={evt => setViewport((prevState) => evt.viewState)}
         mapboxAccessToken={MAPBOX_TOKEN}
-        style={{ width: "100%", height: 500 }}
+        style={{ width: "100%", height: 650 }}
       >
         <ul>
           {markers.map(marker => {
 
-            const firstKey = Object.keys(marker)[0];
-            const details = marker[firstKey];
+            const postalCode = marker.postalCode;
+            const landlords = marker.landlords;
 
             return (
-              <li key={firstKey}>
+              <li key={postalCode}>
                 <Marker
-                  latitude={details.lat}
-                  longitude={details.long}
+                  latitude={marker.lat}
+                  longitude={marker.long}
                   offsetLeft={10}
                   offsetTop={10}>
                   <div
                     // TODO Launch Modal here.  'details' has all info
-                    onClick={() => setOpenModal(() => details.landlordId)}
-                    className="marker">1
-                    {openModal === details?.landlordId && <MapModal data={details} openModal={openModal} closeModal={closeModal} />}
+                    onClick={() => setOpenModal(() => postalCode)}
+                    className="marker">{ marker.landlords.length }
+                    {openModal === postalCode && <MapModal landlords={landlords} openModal={openModal} closeModal={closeModal} />}
                   </div>
                 </Marker>
               </li>
