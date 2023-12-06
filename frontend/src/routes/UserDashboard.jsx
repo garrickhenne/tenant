@@ -49,7 +49,7 @@ const UserDashboard = () => {
       <ul className='m-0 grid grid-cols-2'>
 
         {/* Go through each review and assign render a Review Component */}
-        {dashboard.map((item, index) => {
+        {dashboard.reverse().map((item, index) => {
           return (<motion.li
             className="m-10"
             key={item._id}
