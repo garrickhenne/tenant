@@ -137,7 +137,7 @@ const populateRecords = async function () {
     const savedNallyProperty = await nallyProperty.save();
 
     // create scorned review
-    const scornedReview = new Review({
+    const scornedReview1 = new Review({
       title: 'Penny Pinching Landlord',
       description: 'Would never repair the radiator, the place was always very cold.  Would quack at us for making the slighest noise.',
       sentiment: -0.65,
@@ -148,7 +148,35 @@ const populateRecords = async function () {
       userId: garrick._id,
       landlordId: scornedLandlord._id,
     });
-    const createdScornedReview = await scornedReview.save();
+    const createdScornedReview1 = await scornedReview1.save();
+
+    // create scorned review
+    const scornedReview2 = new Review({
+      title: 'Always walks with a cane upstairs',
+      description: 'I keep hearing a cane banging against the roof, upstairs.  One time he accepted a late payment, so I am thankful for that.  However, he is quite stingy in repairs.',
+      sentiment: 0.15,
+      healthSafety: 3,
+      respect: 4,
+      repair: 2,
+      overallScore: getCalculatedReviewScore(3, 4, 2, 0.15),
+      userId: dan._id,
+      landlordId: scornedLandlord._id,
+    });
+    const createdScornedReview2 = await scornedReview2.save();
+
+    // create scorned review
+    const scornedReview3 = new Review({
+      title: 'I cannot complain, the rent is cheap',
+      description: 'Good value for location and comes with lots of amenities, however, they are really dated and requires lots of repair.  It would be nice if some of the appliances are upgraded.  Its 2023 and the stovetop looks like it was made in 1965.',
+      sentiment: 0.15,
+      healthSafety: 3,
+      respect: 3,
+      repair: 3,
+      overallScore: getCalculatedReviewScore(3, 3, 3, 0.15),
+      userId: rob._id,
+      landlordId: scornedLandlord._id,
+    });
+    const createdScornedReview3 = await scornedReview3.save();
 
     // create nally review
     const nallyReview = new Review({
@@ -163,19 +191,6 @@ const populateRecords = async function () {
       landlordId: nally._id,
     });
     const createdNallyReview = await nallyReview.save();
-
-    const regularReview = new Review({
-      title: 'Fantastic Landlord',
-      description: 'No complaints.  Some notes: always in the attic, sometimes I hear singing and guitar strumming.  Christian keeps mentioning "Team semi-colon" at least once a day.  Has a wonderful dog named "Snoopy".',
-      sentiment: 0.90,
-      healthSafety: 5,
-      respect: 5,
-      repair: 5,
-      overallScore: getCalculatedReviewScore(5, 5, 5, 0.90),
-      userId: garrick._id,
-      landlordId: nally._id,
-    });
-    const createdRegularReview = await regularReview.save();
 
     // ---end of special cases
 
