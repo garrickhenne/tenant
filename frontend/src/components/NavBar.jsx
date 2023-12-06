@@ -15,7 +15,7 @@ const NavBar = () => {
       <div id="nav-buttons" className="flex align-middle">
         <NavButton name='Search' path='/' />
         {user && <NavButton name='New Review' path='reviews/new' />}
-        <NavButton name='About us' path='about' />
+        <NavButton name='About us' path='/about' />
         {!user && <NavButton name='Sign up' path='/signup' />}
         {!user && <NavButton name='Login' path='login' />}
         {user && <NavButton name='Map' path='/map' />}
