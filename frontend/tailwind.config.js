@@ -12,6 +12,9 @@ export default {
       minHeight: {
         '76vh': '76vh',
         '74vh': '74vh'
+      },
+      minWidth: {
+        '500': '500px'
       }
     },
   },
