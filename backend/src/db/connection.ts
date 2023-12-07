@@ -6,7 +6,7 @@ let mongooseConnection: typeof mongoose | undefined;
 export const connectToMongoDB = async(): Promise<Connection> => {
   try {
     mongooseConnection = await mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@cluster0.p7l79i6.mongodb.net/?retryWrites=true&w=majority`, {
-      dbName: 'test',
+      dbName: 'test3',
       // Other options if needed
     });
     console.log('Connected to MongoDB');
