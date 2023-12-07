@@ -1,13 +1,24 @@
-import { Link } from 'react-router-dom';
-
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 const NavButton = ({ name, path }) => {
 
+  const [isMapPath, setIsMapPath] = useState(false);
+
+  let location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/map') {
+      setIsMapPath(true);
+      return;
+    }
+    setIsMapPath(false);
+  }, [location]);
 
   return (
     <Link
       to={path}
     >
-      <button className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white shadow-xl focus:outline-none">
+      <button className={`mx-1 rounded-full font-medium border-solid border-2 border-white shadow-xl focus:outline-none ${isMapPath ? 'bg-red-400' : 'bg-transparent'}`}>
         {name}
       </button>
     </Link>
