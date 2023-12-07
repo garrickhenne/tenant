@@ -189,7 +189,7 @@ const Map = () => {
         </ul>
       </ReactMapGL>
       <input
-        className="pl-4 bg-transparent border-solid border-2 border-white rounded-full h-11 mt-5 focus:outline-none text-slate-200 absolute z-50 bottom-10 bg-red-400 transform -translate-x-1/2 left-1/2"
+        className="pl-4 border-solid border-2 border-white rounded-full h-11 mt-5 focus:outline-none text-slate-200 absolute z-50 bottom-10 bg-red-400 transform -translate-x-1/2 left-1/2 placeholder-white"
         placeholder="Enter a Postal Code"
         required
         value={postalCode}

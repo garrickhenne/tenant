@@ -34,7 +34,7 @@ const LogoutButton = () => {
 
   return (
     <button
-      className={`mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-white shadow-xl focus:outline-none ${isMapPath ? 'bg-red-400' : ''}`}
+      className={`mx-1 rounded-full font-medium border-solid border-2 border-white text-white shadow-xl focus:outline-none ${isMapPath ? 'bg-red-400' : 'bg-transparent'}`}
       onClick={handleClick}
     >
       Logout
