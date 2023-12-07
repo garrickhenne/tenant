@@ -126,7 +126,7 @@ const Map = () => {
       <ReactMapGL
         {...viewport}
         mapStyle="mapbox://styles/mapbox/streets-v12"
-        onMove={evt => setViewport((prevState) => evt.viewState)}
+        onMove={evt => setViewport(evt.viewState)}
         mapboxAccessToken={MAPBOX_TOKEN}
         style={{ top: 0, left: 0, width: "100vw", position: 'absolute', height: "100vh", zIndex: 0 }}
       >
