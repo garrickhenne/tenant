@@ -31,7 +31,7 @@ const Map = () => {
   const [openModal, setOpenModal] = useState('');
   const closeModal = (e) => {
     setOpenModal('');
-    
+
     // This right here took me an hour to figure out.
     e.stopPropagation();
   };
@@ -161,7 +161,7 @@ const Map = () => {
         mapStyle="mapbox://styles/mapbox/streets-v12"
         onMove={evt => setViewport(evt.viewState)}
         mapboxAccessToken={MAPBOX_TOKEN}
-        style={{ width: "100%", height: 500 }}
+        style={{ top: 0, left: 0, width: "100vw", position: 'absolute', height: "100vh", zIndex: 0 }}
       >
         <ul>
           {markers.map(marker => {

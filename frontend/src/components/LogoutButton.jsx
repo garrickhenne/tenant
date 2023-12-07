@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { authContext } from "../providers/AuthProvider";
 import { useContext } from 'react';
 import axios from 'axios';
@@ -6,6 +6,13 @@ import axios from 'axios';
 const LogoutButton = () => {
   const navigate = useNavigate();
   const { user, logout } = useContext(authContext);
+
+  let isMapPath = false;
+  const location = useLocation();
+  if (location.pathname === "/map") {
+    isMapPath = true;
+  }
+
   const handleClick = () => {
     axios.get('/api/logout')
       .then(() => {
@@ -19,12 +26,12 @@ const LogoutButton = () => {
     navigate('/');
   }
 
-  return(
+  return (
     <button
-      className="mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-white shadow-xl focus:outline-none"
-      onClick={ handleClick }
+      className={`mx-1 rounded-full font-medium bg-transparent border-solid border-2 border-white text-white shadow-xl focus:outline-none ${isMapPath ? 'bg-red-400' : ''}`}
+      onClick={handleClick}
     >
-        Logout
+      Logout
     </button>
   );
 };

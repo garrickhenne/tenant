@@ -8,7 +8,9 @@ const NavBar = () => {
   const { user } = useContext(authContext);
 
   return (
-    <nav className="flex justify-between mb-10">
+    <nav className="relative z-50 flex justify-between mb-10"
+    >
+
       <Link to='/'>
         <p className='font-medium text-5xl cursor-pointer transition-all'>tenant</p>
       </Link>
