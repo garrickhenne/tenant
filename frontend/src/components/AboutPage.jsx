@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion';
+
 const AboutPage = () => {
-  return <div className="text-slate-200">
+  return <motion.div className="text-slate-200" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: 'easeIn' }} >
     <main>
       <header className="font-bold text-4xl py-10">Inspiration</header>
       <article className="text-left">
@@ -154,7 +156,7 @@ const AboutPage = () => {
         <a className="hover:underline px-10" href="https://github.com/robertshum">@robertshum</a>
       </ul>
     </main>
-  </div>;
+  </motion.div>;
 };
 
 export default AboutPage;

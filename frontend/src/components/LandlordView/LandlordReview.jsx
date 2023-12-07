@@ -26,7 +26,7 @@ const LandlordReview = function({ item }) {
 
   return (
     <section
-      className={`w-full p-6 border-2 border-white rounded-lg max-w-2xl shadow-lg bg-white basis-[45%] bg-transparent`}
+      className={`w-full p-6 border-2 border-white rounded-lg max-w-2xl shadow-lg bg-white basis-[45%] bg-transparent min-w-500`}
     >
       <header className="flex justify-between items-center mb-1">
         {/* Title Review + Edit Button */}

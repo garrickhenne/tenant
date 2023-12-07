@@ -134,7 +134,11 @@ const ReviewForm = () => {
 
   return (
     <>
-      <main className="flex justify-center gap-y-7 flex-col items-center">
+      <motion.main className="flex justify-center gap-y-7 flex-col items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, ease: 'easeIn' }}
+      >
         <h1 className="self-start font-bold text-4xl  text-white">
           {isEdit ? 'Edit' : 'Submit'} a Landlord Review</h1>
         <div className="flex flex-row rounded-xl shadow-2xl bg-white min-w-[90%]">
@@ -147,7 +151,7 @@ const ReviewForm = () => {
             <ReviewSection isEdit={isEdit} handleSubmit={handleSubmit} />
           </div>
         </div>
-      </main>
+      </motion.main>
     </>
   );
 };
