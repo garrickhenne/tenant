@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import '../styling/scrollBar.css';
+import { motion } from "framer-motion";
 
 export const SearchBar = () => {
   const navigation = useNavigate();
@@ -42,18 +43,32 @@ export const SearchBar = () => {
     searchLandlord(params);
   }, [searchQuery, isName]);
 
+  const itemAnimProp = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: -50 },
+  };
+
   return <div className="input-wrapper flex flex-col items-center space-y-16">
 
-    <div>
+    <motion.div
+      variants={itemAnimProp}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.2, delay: 0.5 }}
+    >
       <button className={`${isName ? "border-[#646cff]" : "border-white"} focus:outline-none w-32 mx-1 rounded-full font-medium bg-transparent border-solid border-2  text-slate-200`} onClick={() => {
         setIsName(true);
       }}>Name</button>
       <button className={`${isName ? "border-white" : "border-[#646cff]"} focus:outline-none w-32 mx-1 rounded-full font-medium bg-transparent border-solid border-2  text-slate-200`} onClick={() => {
         setIsName(false);
       }}>Postal Code</button>
-    </div>
+    </motion.div>
     
-    <input
+    <motion.input
+      variants={itemAnimProp}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: 0.2, delay: 0.7 }}
       className="pl-7 pr-20 w-3/4 text-left text-xl focus:outline-none bg-transparent border-solid border-2 border-white rounded-full h-16 text-slate-200"
       placeholder={isName ? "🔎 Search by name..." : "🔎 Search by postal code..."}
       value={searchQuery}
