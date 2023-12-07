@@ -1,17 +1,23 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { authContext } from "../providers/AuthProvider";
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
   const { user, logout } = useContext(authContext);
 
-  let isMapPath = false;
-  const location = useLocation();
-  if (location.pathname === "/map") {
-    isMapPath = true;
-  }
+  const [isMapPath, setIsMapPath] = useState(false);
+
+  let location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/map') {
+      setIsMapPath(true);
+      return;
+    }
+    setIsMapPath(false);
+  }, [location]);
 
   const handleClick = () => {
     axios.get('/api/logout')

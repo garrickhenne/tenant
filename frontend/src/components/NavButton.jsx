@@ -1,12 +1,18 @@
 import { Link, useLocation } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 const NavButton = ({ name, path }) => {
 
-  let isMapPath = false;
-  const location = useLocation();
-  if (location.pathname === "/map") {
-    isMapPath = true;
-  }
+  const [isMapPath, setIsMapPath] = useState(false);
+
+  let location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/map') {
+      setIsMapPath(true);
+      return;
+    }
+    setIsMapPath(false);
+  }, [location]);
 
   return (
     <Link
