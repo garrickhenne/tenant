@@ -25,6 +25,8 @@ const propertySchema = new Schema<IProperty>({
       enum: ['Point'],
     },
     coordinates: {
+      // [0] - Lat
+      // [1] - Long
       type: [Number],
     }
   },
