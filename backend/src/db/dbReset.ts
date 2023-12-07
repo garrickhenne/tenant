@@ -4,11 +4,11 @@ import Landlord, { ILandlord } from '../model/Landlord';
 import User, { IUser } from '../model/User';
 import Review from '../model/Review';
 import Incident from '../model/Incident';
-import Property from '../model/Property';
+import Property, { ILocation } from '../model/Property';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import { getCalculatedReviewScore } from '../services/ServicesHelper';
-import { getRandomPostalCode, randomReview } from './dbResetHelper';
+import { getRandomLocation, randomReview } from './dbResetHelper';
 
 //For env File
 dotenv.config();
@@ -73,12 +73,22 @@ const populateRecords = async function () {
 
     //MASS Mock Properties
     //Use savedLandlords to create mock data for properties
-    const mockProperties = savedLandlords.map((landlord) => ({
-      postalCode: getRandomPostalCode(),
-      streetName: faker.location.street(),
-      streetNumber: 42,
-      landlordId: landlord._id, // Reference to the landlord's _id
-    }));
+    const mockProperties = savedLandlords.map((landlord) => {
+      const randomLocation = getRandomLocation();
+      const coordinate: ILocation = {
+        type: 'Point',
+        coordinates: [randomLocation.lat, randomLocation.long],
+      };
+
+      return {
+        postalCode: randomLocation.postalCode,
+        streetName: faker.location.street(),
+        streetNumber: 42,
+        landlordId: landlord._id, // Reference to the landlord's _id
+        location: coordinate,
+      };
+    });
+
 
     await Property.insertMany(mockProperties);
 
@@ -120,19 +130,33 @@ const populateRecords = async function () {
     });
     const savedNallyLandlord = await nally.save();
 
+    // New property for Scrooge (Scorned)
+    const scroogeLocation = getRandomLocation();
+    const scroogeCoordinate: ILocation = {
+      type: 'Point',
+      coordinates: [scroogeLocation.lat, scroogeLocation.long],
+    };
     const scornedProperty = new Property({
-      postalCode: getRandomPostalCode(),
+      postalCode: scroogeLocation.postalCode,
       streetName: faker.location.street(),
       streetNumber: 42,
       landlordId: scornedLandlord._id,
+      location: scroogeCoordinate,
     });
     const savedScornedProperty = await scornedProperty.save();
 
+    // New property for Nally
+    const nallyLocation = getRandomLocation();
+    const nallyCoordinate: ILocation = {
+      type: 'Point',
+      coordinates: [nallyLocation.lat, nallyLocation.long],
+    };
     const nallyProperty = new Property({
-      postalCode: getRandomPostalCode(),
+      postalCode: nallyLocation.postalCode,
       streetName: faker.location.street(),
       streetNumber: 42,
       landlordId: nally._id,
+      location: nallyCoordinate
     });
     const savedNallyProperty = await nallyProperty.save();
 
